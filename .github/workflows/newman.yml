@@ -18,5 +18,5 @@ jobs:
       - uses: actions/checkout@master
       - uses: matt-ball/newman-action@master
         with:
-          collection: postman/collections/Lifepack API_50302f0b-3e83-4879-b099-b60ed8de4162.json
+          collection: postman/collections/LifePack API Test Suites_26f55de9-31b1-426a-8f70-3c609a055035.json
           environment: postman/environments/lifepack-mock.json
