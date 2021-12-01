@@ -1,0 +1,2149 @@
+{
+    "info": {
+        "_postman_id": "454ce176-6370-4514-bc84-cc27150adff1",
+        "name": "LifePack API Test Suites",
+        "description": "# Overview\n## Lifepack Open API Description\n\nLifepack provides a portal for our partners to see all prescription history as well as analytics of their shipment and consumption activities.\n\n## Partner Account Types\n\nCurrently, there is two different partner account types available for partners to apply:\n1. Standard Partner Account - Partner who's applying this kind of account should have their customer coordinate address data to send to us while sending [Submit Prescription Data](https://api-docs.lifepack.id/?version=latest#01382ce2-fb36-45cd-9077-a31495d47413) requests and also they should have their own payment system.\n2. Payment on Us Partner Account - Partner who applying this kind of account are the ones that still don't have their own payment system. Sending patient address coordinates while sending [Submit Prescription Data](https://api-docs.lifepack.id/?version=latest#01382ce2-fb36-45cd-9077-a31495d47413) requests are also optional.\n\n## Bussiness Flow\n\n### Subscription Creation Flow\n\n![Subscription Flow](https://drive.google.com/uc?export=view&id=1PCmQw8yN6hPYXVll3Mjr_iVn7cJnHDpx)\n\n### Payment Flow\n\nCurrently, there are two payment flow available to use on our system. The default payment flow and payment flow with payment on us option. If your system or existing data doesn't have user's address coordinate picker and payment system, you can apply for payment on us option to be enabled by contacting our business team.\n\n#### Default Payment Flow\n\nThe default payment flow starts after the prescription has reviewed and approved by our pharmacists. You can directly hit our [Change Payment Status to Paid](https://api-docs.lifepack.id/?version=latest#60c7c2e6-5e27-47d9-9713-7b898a1f6f16) endpoint after your customer's payment is already paid and verified in your system.\n\n![Payment Flow](https://drive.google.com/uc?export=view&id=1yp8QoGvr5vK6DiuuKHt4kJV_w7SsWDoR)\n\n#### Payment on Us Flow\n\nThe payment on us flow also starts after the prescription has reviewed and approved by our pharmacists. But, the entire process on address picking will happen in our system. You can just listen to webhook callback from us for the subscription status updates.\n\n![Payment on Us Flow](https://drive.google.com/uc?export=view&id=1BQ-iEc2-b8UYNHXco6HSg5nfzNB4dz2j)\n\n## UX Guideline\n\n### Registration Flow\n\n![Registration Flow](https://drive.google.com/uc?export=view&id=1xC6ypOAh5hAq4sizGogpF8zkz697ENsu)\n\n### Create Digital Prescription Flow\n\n![Create Digital Prescription Flow 1](https://drive.google.com/uc?export=view&id=1GtZR5rYW5HJ1vFwyc-1xxoLMrPf5una0)\n\n![Create Digital Prescription Flow 2](https://drive.google.com/uc?export=view&id=1CV_GqYcUpOwXJpZQpMStcuTevPDkyY17)\n\n![Create Digital Prescription Flow 3](https://drive.google.com/uc?export=view&id=1x6jfnpqq-U_uBMq5JSa9JbfqIEqD6vkO)\n\n### Create Photo Prescription Flow\n\n![Create Photo Prescription Flow 1](https://drive.google.com/uc?export=view&id=12w_cpriIa3QiOME4p6_mFl7RkSVw8QYl)\n\n![Create Photo Prescription Flow 2](https://drive.google.com/uc?export=view&id=1Zpcy4AJaa4CnEodos9SwW4Z4fGRZyfuS)\n\n# Features\n\n## Easy to Integrate API\n\n- Our RESTful API’s enable our partners to integrate to our solution seamlessly;\n- Lifepack API support: Prescription, Subscription, Payment, Patient, Product.\n\n## Dashboard\n\n- Lifepack provides a portal for our partners to see all prescription history as well as analytics of their shipment and consumption activities;\n\n# Setting Up\n\nOnce a partner has registered, it will have an access to our sandbox environment. Lifepack partner dashboard will also be accessible.\n\n## Getting Notification\n\nLIfepack allows partners to receive realtime notifications about Lifepack related information, by configuring a endpoint url on the Lifepack Partner Dashboard.\n\nWe are sending notifications to Webhook URL. This endpoint will only be triggered if there are status changes to existing subscription. Please refer to [subscription status reference section](https://api-docs.lifepack.id/?version=latest#subscription-status) for which statuses are sent in the notification.\n\nOnce configured, Lifepack will send a HTTP POST payload to the url, containing detail about specific event which can be seen in the notification payload section.\n\n**Configuring the Endpoint URL**\n\n- To setup an Endpoint URL on Lifepack, head over to the **SETTINGS** tab on the sidebar, and edit the values on **WEBHOOK URL**.\n- Save the notification URL using the **Submit** button. The notification URL can be modified anytime from the settings page.\n\n## Notification Payload\n\nExample Payload:\n\n```json\n{\n  \"subscription_id\": 1791,\n  \"status\": \"payment_order\",\n  \"patient\": {\n    \"id\": \"652\",\n    \"name\": \"Jono Hipertensi\",\n    \"phone_number\": \"+628537333452\",\n    \"address\": {\n      \"id\": 4849,\n      \"default\": false,\n      \"latitude\": -6.406614,\n      \"longitude\": 106.822083,\n      \"first_line\": \"Telaga Golf\",\n      \"second_line\": \"Jl. Hr. Rasuna Sahid\",\n      \"postal_code\": \"16412\",\n      \"note\": \"Graha Irama\",\n      \"street_name\": \" \",\n      \"province\": \"West Java\",\n      \"city\": \"Depok City\",\n      \"district\": \"Sukmajaya\",\n      \"sub_district\": null\n    }\n  },\n  \"total_payment\": 356250,\n  \"products\": [\n    {\n      \"id\": 1179,\n      \"name\": \"VERAPAMIL HCL\",\n      \"qty\": 2,\n      \"consumption_day\": 5,\n      \"total_qty\": 10\n    },\n    {\n      \"id\": 1013,\n      \"name\": \"SHAROX 500 MG\",\n      \"qty\": 2,\n      \"consumption_day\": 5,\n      \"total_qty\": 10\n    }\n  ],\n  \"timestamp\": \"2020-08-27 17:49:56\"\n}\n```\n\n### Payload Description\n\n| Parameter       | Description                                                                                                                            |\n|-----------------|----------------------------------------------------------------------------------------------------------------------------------------|\n| subscription_id | Subscription ID of the notification                                                                                                    |\n| patient         | `object` Please refer to [patient entity](https://api-docs.lifepack.id/#patient-entity)                                                |\n| status          | Refer to [subscription status reference section](https://api-docs.lifepack.id/?version=latest#subscription-status) for possible values |\n| total_payment   | Amount of the total payment for current subscription                                                                                   |\n| timestamp       | `string` Last update time                                                                                                              |\n|                 | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                      |\n\n### Product Entity\n\n| id              | Product ID                              |\n|-----------------|-----------------------------------------|\n| name            | Product name                            |\n| qty             | Quantity taken per day                  |\n| consumption_day | Total days user should taking medicine  |\n| total_qty       | Total quantity of product given to user |\n\n## Error Code and Message\n\n### Description Of Usual Server Responses (HTTP Codes)\n\n- `200 OK` - the request was successful (some API calls may return 201 instead).\n- `201 Created` - the request was successful and a resource was created.\n- `202 Accepted` - the request was accepted and enqueue for processing later.\n- `204 No Content` - the request was successful but there is no representation to return (i.e. the response is empty).\n- `400 Bad Request` - the request could not be understood or was missing required parameters.\n- `401 Unauthorized` - authentication failed.\n- `403 Forbidden` - access denied.\n- `402 Payment Required` - payment is required.\n- `404 Not Found` - resource was not found.\n- `410 Gone` - the resource has been expired.\n- `422 Unprocessable Entity` - i.e. validation errors.\n- `500 Internal Server Error` - Bad bad bad.\n- `503 Service Unavailable` - service is temporary unavailable (e.g. scheduled Platform Maintenance). Try again later.\n\n### Error Structure\n\nAside from the `4XX` and `5XX` error HTTP Headers, we have an unified error structure:\n\n```\n{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\"\n}\n```\n\nThis means that, if you get an `4XX` or `5XX` errors, you can utilize your system to log or display the error message to the user. Possible error codes will be explained in each endpoints.\n\n# Reference\n\n## Subscription Status\n\n| Status                | Description                                                                     | Status appears on subscription detail? | Will receive notification? |\n|-----------------------|---------------------------------------------------------------------------------|----------------------------------------|----------------------------|\n| in_review             | Prescription is under review (products and total payment still not exists)      | ✅                                      | ❌                          |\n| prescription_approved | Prescription approved by pharmacist                                             | ✅                                      | ✅                          |\n| prescription_adjusted | Prescription is adjusted, partner should update prescription detail information | ❌                                      | ✅                          |\n| order_cancelled       | Prescription cancelled by pharmacist                                            | ✅                                      | ✅                          |\n| order_expired         | Order is not continued within the time specified at `expired_at`                | ✅                                      | ✅                          |\n| prescription_rejected | Prescription is rejected by admin                                               | ✅                                      | ✅                          |\n| pending_address       | User need to update address                                                     | ✅                                      | ✅                          |\n| payment_order         | Prescription is approved by admin and ready to be charged                       | ✅                                      | ✅                          |\n| waiting_for_payment   | User already selected payment method (only for payment on us partner type)      | ✅                                      | ✅                          |\n| payment_successful    | Order has successfully paid by user                                             | ✅                                      | ✅                          |\n| payment_expired       | Payment has expired (only for payment on us partner type)                       | ✅                                      | ✅                          |\n| payment_failed        | Payment has failed (only for payment on us partner type)                        | ✅                                      | ✅                          |\n| order_processed       | Pharmacist is preparing the order                                               | ✅                                      | ✅                          |\n| waiting_for_pickup    | Package is ready to ship, waiting the courier to pick up                        | ✅                                      | ✅                          |\n| picked_up             | Package is picked up by courier                                                 | ✅                                      | ✅                          |\n| on_delivery           | Package is on delivery to customer address                                      | ✅                                      | ✅                          |\n| delivered             | Package has already delivered to customer address                               | ✅                                      | ✅                          |\n| delivery_failed       | Package delivery has failed                                                     | ✅                                      | ✅                          |\n| active                | User click confirm button in lifepack app/automatically after 24 h delivered    | ✅                                      | ✅                          |\n| inactive              | Medication schedule ended                                                       | ✅                                      | ✅                          |\n\n# Authorization\n\nFor the authorization headers for authenticating the requests, please refer to our [Authorization](https://api-docs.lifepack.id/?version=latest#authorization-header) section.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "partner/v1",
+            "item": [
+                {
+                    "name": "patient",
+                    "item": [
+                        {
+                            "name": "Patient Information",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "e552678c-c03f-4e23-81d4-37b2b94bcf7d",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () {",
+                                            "    pm.response.to.have.status(200);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "id": "a9112a14-d80c-4296-ae4f-8cc46e0dda08",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/patient?limit=10&offset=0&patient_id=3",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "patient"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10",
+                                            "description": "`optional` `number` Data limit (default: 10)"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "0",
+                                            "description": "`optional` `number` Data offset (default: 0)"
+                                        },
+                                        {
+                                            "key": "patient_id",
+                                            "value": "3",
+                                            "description": "`optional` `number` Patient ID"
+                                        }
+                                    ]
+                                },
+                                "description": "You can search for past patients information that have submitted their prescription with your partner credentials into our system at least once with this endpoint. You can pass `patient_id` query parameter to filter the patient, or you just can leave it blank to show all the patient data.\n\n### Response Parameters\n\n| Parameter | Description                              |\n|-----------|------------------------------------------|\n| []        | `object[]` Refer to patient entity below |\n\n#### Patient Entity\n\n| Parameter    | Description                                                      |\n|--------------|------------------------------------------------------------------|\n| id           | `integer` Patient ID                                             |\n| name         | `string` Name of the patient                                     |\n|              | Maximum length is 36 characters                                  |\n| phone_number | `string` Phone number of the patient                             |\n|              | Value should be started with \"+\" followed with series of numbers |\n|              | Maximum length is 15 characters                                  |\n| allergy      | `optional` `string` Patient's allergy                            |\n| age          | `optional` `integer` Patient's age                               |\n|              | Value should be greater than or equal to 0                       |\n| gender       | `enum` Patient's gender                                          |\n|              | Valid values: `male`, `female`                                   |"
+                            },
+                            "response": [
+                                {
+                                    "id": "600c6a2c-5a35-493c-90d9-d0210da4ba9c",
+                                    "name": "Get List All Patient Information",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/patient?limit=10&offset=0&patient_id=3",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "patient"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "limit",
+                                                    "value": "10"
+                                                },
+                                                {
+                                                    "key": "offset",
+                                                    "value": "0"
+                                                },
+                                                {
+                                                    "key": "patient_id",
+                                                    "value": "3"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "keep-alive",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "115",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Wed, 20 May 2020 09:18:07 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"73-Uk2+lq1tyk5AGvCime2K8cysS5k\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "[\n {\n  \"age\": 45,\n  \"allergy\": \"Alergi kacang\",\n  \"gender\": \"male\",\n  \"id\": 3,\n  \"name\": \"Jono Diabetes\",\n  \"phone_number\": \"+628712312312\"\n }\n]"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Register Patient",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "fd9ab895-daae-48b0-b93b-34488a0cd9f0",
+                                        "exec": [
+                                            "pm.test(\"Status code is 400\", function () {",
+                                            "    pm.response.to.have.status(400);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "id": "296f82ea-0a6b-42ff-bdcb-0e12f9dfb771",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"insurance\": {\n        \"company_name\": \"BNI Life\",\n        \"policy_number\": \"003105\"\n    },\n    \"name\": \"Yudia\",\n    \"patients\": [\n        {\n            \"family_type\": \"self\",\n            \"member_number\": \"031322\",\n            \"name\": \"yudia\",\n            \"phone_number\": \"+628569240856\"\n        },\n        {\n            \"family_type\": \"spouse\",\n            \"member_number\": \"861534\",\n            \"name\": \"karno\",\n            \"phone_number\": \"+628547236273\"\n        },\n        {\n            \"family_type\": \"child\",\n            \"member_number\": \"761235\",\n            \"name\": \"Kenan\",\n            \"phone_number\": null\n        }\n    ],\n    \"phone_number\": \"+628569240856\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/patient",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "patient"
+                                    ]
+                                },
+                                "description": "You can register patient with this endpoint. Main user should be added too in the patients array. If the operations succeeded, it will returns empty response with `204 No Response` status code.\n\n### Request Parameters\n\n| Parameter    | Description                                                      |\n|--------------|------------------------------------------------------------------|\n| name         | `string` Patient Name                                            |\n|              | Maximum length is 100 characters                                 |\n| phone_number | `string` Patient phone number                                    |\n|              | Value should be started with \"+\" followed with series of numbers |\n|              | Maximum length is 15 characters                                  |\n| insurance    | `object` Refer to insurance object below                         |\n| patients[]   | `array` Refer to patients entity below                           |\n\n#### Insurance Entity\n\n| Parameter     | Description                                                                                                                            |\n|---------------|----------------------------------------------------------------------------------------------------------------------------------------|\n| company_name  | `string` Insurance company name                                                                                                        |\n|               | Value should be matches with insurance that has already informed to us. Please let us know if you have a new insurance name registered |\n| policy_number | `string` Insurance policy number                                                                                                       |\n\n#### Patient Entity\n\n| Parameter     | Description                                                      |\n|---------------|------------------------------------------------------------------|\n| name          | `string` Name of the patient                                     |\n|               | Maximum length is 36 characters                                  |\n| phone_number  | `string` Phone number of the patient                             |\n|               | Value should be started with \"+\" followed with series of numbers |\n|               | Maximum length is 15 characters                                  |\n| member_number | `string` Insurance member number                                 |\n| family_type   | `enum` Family type                                               |\n|               | Possible values: `self`, `spouse`, `child`                       |\n| child_order   | `optional` `integer` Child order                                 |\n| age           | `optional` `number` Patient's age                                |\n|               | Value should be greater than or equal to 0                       |\n| age_unit      | `optional` `enum` Patient's age unit                             |\n|               | Valid values: `years`, `months`, `days`. Default: `years`        |\n| weight        | `optional` `number` Patient's body weight in kilograms           |\n|               | Value should be greater than or equal to 0                       |"
+                            },
+                            "response": [
+                                {
+                                    "id": "172e882d-08fa-47bb-8bb0-6eb14745f01a",
+                                    "name": "Success Register Patient",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n    \"insurance\": {\n        \"company_name\": \"BNI Life\",\n        \"policy_number\": \"003105\"\n    },\n    \"name\": \"Yudia\",\n    \"patients\": [\n        {\n            \"family_type\": \"self\",\n            \"member_number\": \"031322\",\n            \"name\": \"yudia\",\n            \"phone_number\": \"+628569240856\"\n        },\n        {\n            \"family_type\": \"spouse\",\n            \"member_number\": \"861534\",\n            \"name\": \"karno\",\n            \"phone_number\": \"+628547236273\"\n        },\n        {\n            \"family_type\": \"child\",\n            \"member_number\": \"761235\",\n            \"name\": \"Kenan\",\n            \"phone_number\": null\n        }\n    ],\n    \"phone_number\": \"+628569240856\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/patient",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "patient"
+                                            ]
+                                        }
+                                    },
+                                    "status": "No Content",
+                                    "code": 204,
+                                    "_postman_previewlanguage": "text",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "close",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Tue, 01 Sep 2020 04:03:33 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Referrer-Policy",
+                                            "value": "no-referrer",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Server",
+                                            "value": "nginx",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Strict-Transport-Security",
+                                            "value": "max-age=31536000",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Content-Type-Options",
+                                            "value": "nosniff",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Frame-Options",
+                                            "value": "SAMEORIGIN",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-XSS-Protection",
+                                            "value": "1; mode=block",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "text/plain"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": ""
+                                },
+                                {
+                                    "id": "403fe7d7-637f-4850-af3b-8febf3bdf060",
+                                    "name": "User Already Registered (Duplicate Phone Number)",
+                                    "originalRequest": {
+                                        "method": "POST",
+                                        "header": [],
+                                        "body": {
+                                            "mode": "raw",
+                                            "raw": "{\n    \"insurance\": {\n        \"company_name\": \"BNI Life\",\n        \"policy_number\": \"003105\"\n    },\n    \"name\": \"Yudia\",\n    \"patients\": [\n        {\n            \"family_type\": \"self\",\n            \"member_number\": \"031322\",\n            \"name\": \"yudia\",\n            \"phone_number\": \"+628569240856\"\n        },\n        {\n            \"family_type\": \"spouse\",\n            \"member_number\": \"861534\",\n            \"name\": \"karno\",\n            \"phone_number\": \"+628547236273\"\n        },\n        {\n            \"family_type\": \"child\",\n            \"member_number\": \"761235\",\n            \"name\": \"Kenan\",\n            \"phone_number\": null\n        }\n    ],\n    \"phone_number\": \"+628569240856\"\n}",
+                                            "options": {
+                                                "raw": {
+                                                    "language": "json"
+                                                }
+                                            }
+                                        },
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/patient",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "patient"
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "close",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "75",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Tue, 01 Sep 2020 04:04:35 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"4b-I81R4s5+keY66ztLD67I0ea3pLU\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Server",
+                                            "value": "nginx",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"errorCode\": \"USER_ALREADY_REGISTERED\",\n \"message\": \"User already registered\"\n}"
+                                }
+                            ]
+                        }
+                    ],
+                    "id": "1b2392a7-6f7f-41f7-a7f2-2de9fbc9e864"
+                },
+                {
+                    "name": "product",
+                    "item": [
+                        {
+                            "name": "Product List",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "5a7fc70f-0763-4bda-96bf-4bfe4fd5cf20",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () {",
+                                            "    pm.response.to.have.status(200);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "id": "cecc070a-5221-40ab-ba5e-9fe53a56af4f",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/product?keyword=paracetamol&city_id=2&limit=10&offset=0",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "product"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "keyword",
+                                            "value": "paracetamol",
+                                            "description": "`required` `string` Product search keyword"
+                                        },
+                                        {
+                                            "key": "city_id",
+                                            "value": "2",
+                                            "description": "`required` `number` City ID"
+                                        },
+                                        {
+                                            "key": "limit",
+                                            "value": "10",
+                                            "description": "`optional` `number` Data limit (default: 10)"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "0",
+                                            "description": "`optional` `number` Data offset (default: 0)"
+                                        }
+                                    ]
+                                },
+                                "description": "You can search for our registered products using this endpoint. You should pass `keyword` query parameter to search the products, or you just can fill it with `%` to show all the products data without filtering. You should also pass `city_id` param that obtained from [Get City Coverage](https://api-docs.lifepack.id/#3dc6feaa-ac70-4738-ad87-2b6aa008229f) endpoint.\n\n### Response Parameters\n\n| Parameter          | Description                          |\n|--------------------|--------------------------------------|\n| id                 | `integer` Product ID                 |\n| name               | `string` Product name                |\n|                    | Maximum length is 100 characters     |\n| description        | `string` Product description         |\n| type               | `string` Product type                |\n|                    | Maximum length is 100 characters     |\n| stock_availability | `boolean` Product stock avaliability |"
+                            },
+                            "response": [
+                                {
+                                    "id": "d7842942-f152-493a-aa24-0d08190b43e4",
+                                    "name": "Get Product List With Specific Keyword",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/product?keyword=paracetamol&city_id=2&limit=10&offset=0",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "product"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "keyword",
+                                                    "value": "paracetamol"
+                                                },
+                                                {
+                                                    "key": "city_id",
+                                                    "value": "2"
+                                                },
+                                                {
+                                                    "key": "limit",
+                                                    "value": "10"
+                                                },
+                                                {
+                                                    "key": "offset",
+                                                    "value": "0"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "access-control-allow-origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "content-length",
+                                            "value": "273",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "date",
+                                            "value": "Mon, 13 Jul 2020 10:11:55 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "etag",
+                                            "value": "W/\"111-CXR8qX95VUF3/PkH4pJuNZsJa7I\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "strict-transport-security",
+                                            "value": "max-age=2592000",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "x-forwarded-proto",
+                                            "value": "https",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "x-powered-by",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "[\n {\n  \"description\": null,\n  \"id\": 886,\n  \"name\": \"PARACETAMOL 500 MG PRMD\",\n  \"stock_availability\": true,\n  \"type\": \"tablet\"\n },\n {\n  \"description\": null,\n  \"id\": 887,\n  \"name\": \"PARACETAMOL ESA\",\n  \"stock_availability\": true,\n  \"type\": \"tablet\"\n },\n {\n  \"description\": null,\n  \"id\": 888,\n  \"name\": \"PARACETAMOL TAB\",\n  \"stock_availability\": true,\n  \"type\": \"tablet\"\n }\n]"
+                                },
+                                {
+                                    "id": "3f6a3359-d323-4ac7-b3ee-b5262b31c9e0",
+                                    "name": "No City ID Passed",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/product?keyword=paracetamol&city_id=2&limit=10&offset=0",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "product"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "keyword",
+                                                    "value": "paracetamol"
+                                                },
+                                                {
+                                                    "key": "city_id",
+                                                    "value": "2"
+                                                },
+                                                {
+                                                    "key": "limit",
+                                                    "value": "10"
+                                                },
+                                                {
+                                                    "key": "offset",
+                                                    "value": "0"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "close",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "62",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Wed, 27 Jan 2021 09:41:14 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"3e-tPQxIpG8dCt702v6L2YVt3ng3v4\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Server",
+                                            "value": "nginx",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"error_code\": \"CITY_ID_REQUIRED\",\n \"message\": \"City ID required\"\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Product Detail",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "22f623ed-ff73-4e58-9d1f-e76cf71572c3",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () {",
+                                            "    pm.response.to.have.status(200);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "id": "d038b7dc-d02c-4182-986e-f0bb9736b86b",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/product/:id",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "product",
+                                        ":id"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "35f2aae1-a925-440a-83ef-d1d5fbf1ab0b",
+                                            "key": "id",
+                                            "value": "1",
+                                            "description": "(Required) `number` Product ID"
+                                        }
+                                    ]
+                                },
+                                "description": "You can get product detail information from this endpoint.\n\n### Response Parameters\n\n| Parameter          | Description                          |\n|--------------------|--------------------------------------|\n| id                 | `integer` Product ID                 |\n| name               | `string` Product name                |\n|                    | Maximum length is 100 characters     |\n| description        | `string` Product description         |\n| type               | `string` Product type                |\n|                    | Maximum length is 100 characters     |\n| stock_availability | `boolean` Product stock avaliability |"
+                            },
+                            "response": [
+                                {
+                                    "id": "1c507e0d-a09b-43d8-ae43-7729bee78aec",
+                                    "name": "Success Get Product Detail",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/product/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "product",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id",
+                                                    "value": "1",
+                                                    "description": "(Required) `number` Product ID"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "close",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "66",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Fri, 22 May 2020 04:45:04 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"42-zcCe2RBDp5x1qdz4Pg/WppWrjH0\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Referrer-Policy",
+                                            "value": "no-referrer",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Server",
+                                            "value": "nginx",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Strict-Transport-Security",
+                                            "value": "max-age=31536000",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Content-Type-Options",
+                                            "value": "nosniff",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Frame-Options",
+                                            "value": "SAMEORIGIN",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-XSS-Protection",
+                                            "value": "1; mode=block",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"description\": \"\",\n \"id\": 1,\n \"name\": \"Arthozan Gc+Msm\",\n \"stock_availability\": true,\n \"type\": \"kapsul\"\n}"
+                                },
+                                {
+                                    "id": "4541f07f-b6dd-4b23-99c5-8863be65b06b",
+                                    "name": "Product Not Found",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/product/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "product",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id",
+                                                    "value": "1",
+                                                    "description": "(Required) `number` Product ID"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "access-control-allow-origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "content-length",
+                                            "value": "64",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "date",
+                                            "value": "Tue, 01 Sep 2020 09:59:44 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "etag",
+                                            "value": "W/\"40-1grZnfSF7+98rWMOqIMEHnjJDxA\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "strict-transport-security",
+                                            "value": "max-age=2592000",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "x-forwarded-proto",
+                                            "value": "https",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "x-powered-by",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"error_code\": \"PRODUCT_NOT_FOUND\",\n \"message\": \"Product not found\"\n}"
+                                },
+                                {
+                                    "id": "45f745e3-cb63-4dea-92cf-ee53361240f7",
+                                    "name": "Failed Get Product Detail",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/product/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "product",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id",
+                                                    "value": "1",
+                                                    "description": "(Required) `number` Product ID"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Internal Server Error",
+                                    "code": 500,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "close",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "72",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Fri, 22 May 2020 04:45:23 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"48-AGgvIH6i59zjlHB9eSttZ7AjawA\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Server",
+                                            "value": "nginx",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"error_code\": \"INTERNAL_SERVER_ERROR\",\n \"message\": \"Internal Server Error\"\n}"
+                                }
+                            ]
+                        }
+                    ],
+                    "id": "7a743d66-7214-4810-9e85-8d0cc1fae005"
+                },
+                {
+                    "name": "subscription",
+                    "item": [
+                        {
+                            "name": "Subscription History",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "ea17b311-f0df-459e-8d1a-59837de65348",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () {",
+                                            "    pm.response.to.have.status(200);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "id": "a884e734-a3c4-4b75-8b27-b63e5fb00802",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/subscription?limit=10&offset=0",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "subscription"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10",
+                                            "description": "Maximum number of data (optional, default: 999)"
+                                        },
+                                        {
+                                            "key": "offset",
+                                            "value": "0",
+                                            "description": "Data offset (optional, default: 0)"
+                                        }
+                                    ]
+                                },
+                                "description": "You can get all of the subscription histories using this endpoint.\n\n### Response Parameters\n\n| Parameter          | Description                                                                                                                                                                              |\n|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| id                 | `integer` Subscription ID                                                                                                                                                                |\n| status             | `enum` Refer to [subscription status reference section](https://api-docs.lifepack.id/?version=latest#subscription-status) for possible values                                            |\n| full_name          | `string` Patient's full name                                                                                                                                                             |\n|                    | Maximum length is 36 characters                                                                                                                                                          |\n| total_price        | `number` Total price                                                                                                                                                                     |\n| currency           | `string` Currency used for payment                                                                                                                                                       |\n|                    | Possibble values: `IDR`, `USD`, `SGD`                                                                                                                                                    |\n| end_date           | `string` Latest medication taking date time                                                                                                                                              |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| updated_at         | `string` Data last updated at timestamp                                                                                                                                                  |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| expired_at         | `nullable` `string` Data order will expired at. Only have value if the status is already `pending_addrress` or `payment_order`. Will be emptied again if status is `payment_successful`. |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| estimated_delivery | `string` Estimated package delivery time                                                                                                                                                 |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| is_notified        | `boolean` If `true`, user has been notified when medication is already arrived                                                                                                           |"
+                            },
+                            "response": [
+                                {
+                                    "id": "b168ea75-5827-48c4-a17e-2e67b927e7eb",
+                                    "name": "Success Get Subscription History",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/subscription?limit=10&offset=0",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "subscription"
+                                            ],
+                                            "query": [
+                                                {
+                                                    "key": "limit",
+                                                    "value": "10"
+                                                },
+                                                {
+                                                    "key": "offset",
+                                                    "value": "0"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "keep-alive",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "1848",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Mon, 08 Jun 2020 02:21:39 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"738-TkQFOPdCDcPFMEaaQh5YXA/lubQ\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "[\n {\n  \"currency\": \"IDR\",\n  \"end_date\": \"2020-06-08 23:59:59\",\n  \"estimated_delivery\": \"2020-06-08 09:21:39\",\n  \"expired_at\": null,\n  \"full_name\": \"Jono Diabetes\",\n  \"id\": 411,\n  \"is_notified\": true,\n  \"start_date\": \"2020-06-04 07:00:00\",\n  \"status\": \"active\",\n  \"total_price\": 144802,\n  \"updated_at\": \"2020-06-04 11:28:46\"\n },\n {\n  \"currency\": \"IDR\",\n  \"end_date\": \"2020-06-13 23:59:59\",\n  \"estimated_delivery\": \"2020-06-08 09:21:39\",\n  \"expired_at\": null,\n  \"full_name\": \"Jono Diabetes\",\n  \"id\": 412,\n  \"is_notified\": false,\n  \"start_date\": \"2020-06-09 07:00:00\",\n  \"status\": \"active\",\n  \"total_price\": 16502,\n  \"updated_at\": \"2020-06-04 15:33:44\"\n },\n {\n  \"currency\": \"IDR\",\n  \"end_date\": \"2020-06-18 23:59:59\",\n  \"estimated_delivery\": \"2020-06-08 09:21:39\",\n  \"expired_at\": null,\n  \"full_name\": \"Jono Diabetes\",\n  \"id\": 414,\n  \"is_notified\": false,\n  \"start_date\": \"2020-06-14 07:00:00\",\n  \"status\": \"active\",\n  \"total_price\": 16502,\n  \"updated_at\": \"2020-06-04 15:50:52\"\n },\n {\n  \"currency\": \"IDR\",\n  \"end_date\": \"2020-06-08 23:59:59\",\n  \"estimated_delivery\": \"2020-06-08 09:21:39\",\n  \"expired_at\": \"2020-06-04 17:20:00\",\n  \"full_name\": \"Jono Diabetes Mark IV\",\n  \"id\": 413,\n  \"is_notified\": false,\n  \"start_date\": \"2020-06-04 07:00:00\",\n  \"status\": \"order_expired\",\n  \"total_price\": 113509,\n  \"updated_at\": \"2020-06-04 16:20:00\"\n },\n {\n  \"currency\": \"IDR\",\n  \"end_date\": null,\n  \"estimated_delivery\": \"2020-06-08 09:21:39\",\n  \"expired_at\": null,\n  \"full_name\": \"Jono Diabetes Mark IV\",\n  \"id\": 416,\n  \"is_notified\": false,\n  \"start_date\": \"2020-06-09 07:00:00\",\n  \"status\": \"prescription_approved\",\n  \"total_price\": 93509,\n  \"updated_at\": \"2020-06-04 16:57:20\"\n },\n {\n  \"currency\": \"IDR\",\n  \"end_date\": null,\n  \"estimated_delivery\": \"2020-06-08 09:21:39\",\n  \"expired_at\": \"2020-07-05 12:01:01\",\n  \"full_name\": \"Jono Diabetes Mark X\",\n  \"id\": 418,\n  \"is_notified\": false,\n  \"start_date\": \"2020-06-05 07:00:00\",\n  \"status\": \"payment_order\",\n  \"total_price\": 54666,\n  \"updated_at\": \"2020-06-05 12:01:01\"\n }\n]"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Subscription Detail",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "39b8ca1e-b87f-442f-9ba8-5ab2a3e740c5",
+                                        "exec": [
+                                            "pm.test(\"Status code is 200\", function () {",
+                                            "    pm.response.to.have.status(200);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
+                            "id": "6f35f439-9f64-4e15-9c93-b8b2f26ac149",
+                            "protocolProfileBehavior": {
+                                "disableBodyPruning": true
+                            },
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/subscription/:subscriptionId",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "subscription",
+                                        ":subscriptionId"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "1fce415e-1995-435f-9997-eaa8a3e762cc",
+                                            "key": "subscriptionId",
+                                            "value": "411",
+                                            "description": "(Required) "
+                                        }
+                                    ]
+                                },
+                                "description": "You can get the subscription detail data using this endpoint.\n\n### Response Parameters\n\n| Parameter          | Description                                                                                                                                                                              |\n|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| id                 | `integer` Subscription ID                                                                                                                                                                |\n| prescription_id    | `integer` Prescription ID                                                                                                                                                                |\n| products[]         | `array` Refer to product entity below                                                                                                                                                    |\n| payment            | `object` Refer to payment entity below                                                                                                                                                   |\n| reject_reason      | `string` Rejection reason (if rejected)                                                                                                                                                  |\n|                    | Maximum length is 100 characters                                                                                                                                                         |\n| prescription_image | `string[]` Prescription image                                                                                                                                                            |\n| status             | `enum` Refer to [subscription status reference section](https://api-docs.lifepack.id/?version=latest#subscription-status) for possible values                                            |\n| invoice_url        | `nullable` `string` Invoice URL. Will be null when invoice is not yet generated (order still hasn't paid)                                                                                |\n| claim_id           | `nullable` `string` Insurance claim ID                                                                                                                                                   |\n| next_recurring_id  | `nullable` `integer` Contains subscription ID for the next recurring subscription if not null                                                                                            |\n| is_notified        | `boolean` If `true`, user has been notified when medication is already arrived                                                                                                           |\n| patient            | `object` Refer to patient entity below                                                                                                                                                   |\n| estimated_delivery | `string` Estimated package delivery time                                                                                                                                                 |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| start_date         | `string` First schedule for medication taking                                                                                                                                            |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| end_date           | `string` Last schedule for medication taking                                                                                                                                             |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| updated_at         | `string` Data last updated at timestamp                                                                                                                                                  |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| expired_at         | `nullable` `string` Data order will expired at. Only have value if the status is already `pending_addrress` or `payment_order`. Will be emptied again if status is `payment_successful`. |\n|                    | Date format `YYYY-MM-DD HH:mm:ss`                                                                                                                                                        |\n| currency           | `string` Currency used for payment                                                                                                                                                       |\n|                    | Possibble values: `IDR`, `USD`, `SGD`                                                                                                                                                    |\n| address            | `optional` `object` Refer to address entity below                                                                                                                                        |\n|                    | If the subscription is created without passing address entity and user hasn't set the address yet, this value will be an empty object (`{}`)                                             |\n\n#### Patient Entity\n\n| Parameter    | Description                                                      |\n|--------------|------------------------------------------------------------------|\n| name         | `string` Name of the patient                                     |\n|              | Maximum length is 36 characters                                  |\n| phone_number | `string` Phone number of the patient                             |\n|              | Value should be started with \"+\" followed with series of numbers |\n|              | Maximum length is 15 characters                                  |\n| allergy      | `optional` `string` Patient's allergy                            |\n| age          | `optional` `integer` Patient's age                               |\n|              | Value should be greater than or equal to 0                       |\n| weight       | `optional` `number` Patient's body weight in kilograms           |\n|              | Value should be greater than or equal to 0                       |\n| gender       | `enum` Patient's gender                                          |\n|              | Valid values: `male`, `female`                                   |\n\n#### Address Entity\n\n| Parameter    | Description                                |\n|--------------|--------------------------------------------|\n| latitude     | `optional` `number` Address latitude       |\n|              | Value should be within -90 and 90          |\n| longitude    | `optional` `number` Address longitude      |\n|              | Value should be within -180 and 180        |\n| first_line   | `optional` `string` Address first line     |\n|              | Length should be less than or equal to 255 |\n| second_line  | `optional` `string` Address second line    |\n|              | Length should be less than or equal to 255 |\n| note         | `optional` `string` Address notes          |\n|              | Length should be less than or equal to 255 |\n| province     | `optional` `string` Address province       |\n|              | Length should be less than or equal to 255 |\n| district     | `optional` `string` Address district       |\n|              | Length should be less than or equal to 255 |\n| sub_district | `optional` `string` Address sub district   |\n|              | Length should be less than or equal to 255 |\n| postal_code  | `optional` `string` Address postal code    |\n|              | Length should be less than or equal to 255 |\n\n#### Product Entity\n\n| Parameter | Description                           |\n|-----------|---------------------------------------|\n| id        | `integer` Product ID                  |\n| name      | `string` Product name                 |\n|           | Maximum length is 100 characters      |\n| price     | `number` Product total price          |\n| currency  | `string` Currency used for payment    |\n|           | Possibble values: `IDR`, `USD`, `SGD` |\n| qty       | `integer` Product quantity            |\n| type      | `string` Product type                 |\n|           | Maximum length is 100 characters      |\n\n#### Payment Entity\n\n| Parameter      | Description                                                                                                                   |\n|----------------|-------------------------------------------------------------------------------------------------------------------------------|\n| id             | `integer` Payment ID                                                                                                          |\n| total_price    | `number` Total price include shipping                                                                                         |\n| subtotal_price | `number` Total price exclude shipping                                                                                         |\n| delivery_price | `number` Delivery price                                                                                                       |\n| expired_at     | `optiional` `string` Payment expiry time                                                                                      |\n|                | Date format `YYYY-MM-DD HH:mm:ss`                                                                                             |\n|                | This value will only present if current status is `waiting_for_payment`                                                       |\n| method         | `optional` `number` Payment method                                                                                            |\n|                | Only appear when payment is already initiated/at least is at `waiting_for_payment` status                                     |\n| logo           | `optional` `string` Bank logo                                                                                                 |\n|                | Only has value when payment is already initiated/at least is at `waiting_for_payment` status and payment method is using bank |\n| account_number | `optional` `string` Bank account number                                                                                       |\n|                | Only has value when payment is already initiated/at least is at `waiting_for_payment` status and payment method is using bank |"
+                            },
+                            "response": [
+                                {
+                                    "id": "18930e55-5443-4b32-90c7-525f47806872",
+                                    "name": "Success Get Subscription Detail",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/partner/v1/subscription/:subscriptionId",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "partner",
+                                                "v1",
+                                                "subscription",
+                                                ":subscriptionId"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "subscriptionId",
+                                                    "value": "411",
+                                                    "description": "(Required) "
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "disabled": false,
+                                            "key": "Access-Control-Allow-Origin",
+                                            "value": "*",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Connection",
+                                            "value": "keep-alive",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Content-Length",
+                                            "value": "1224",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "Date",
+                                            "value": "Mon, 08 Jun 2020 01:49:18 GMT",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "ETag",
+                                            "value": "W/\"4c8-c5h8Lhmpcatt+A3gitDAORbSKOY\"",
+                                            "description": ""
+                                        },
+                                        {
+                                            "disabled": false,
+                                            "key": "X-Powered-By",
+                                            "value": "Express",
+                                            "description": ""
+                                        },
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"address\": {\n  \"city\": \"Central Jakarta City\",\n  \"default\": false,\n  \"district\": \"Sawah Besar\",\n  \"first_line\": \"Menara Palma\",\n  \"id\": 180,\n  \"latitude\": -6.170166,\n  \"longitude\": 106.831375,\n  \"note\": \"Graha Irama\",\n  \"postal_code\": \"10710\",\n  \"province\": \"Jakarta\",\n  \"second_line\": \"Jl. Hr. Rasuna Said Blok X2 No. 6\",\n  \"street_name\": \" \",\n  \"sub_district\": null\n },\n \"claim_id\": \"0030\",\n \"currency\": \"IDR\",\n \"end_date\": \"2020-06-08 23:59:59\",\n \"estimated_delivery\": \"2020-06-08 08:49:18\",\n \"expired_at\": \"2020-06-04 15:28:46\",\n \"id\": 411,\n \"invoice_url\": \"https://api.lifepack.id/images/invoice/202008/20200814-invoice-770.jpg\",\n \"is_notified\": true,\n \"next_recurring_id\": 412,\n \"patient\": {\n  \"full_name\": \"Jono Diabetes\",\n  \"id\": \"183\",\n  \"phone_number\": \"+628712312312\"\n },\n \"payment\": {\n  \"delivery_price\": 33500,\n  \"discount\": 0,\n  \"id\": 148,\n  \"subtotal_price\": 3002,\n  \"total_price\": 144802\n },\n \"prescription_id\": 443,\n \"prescription_image\": [\n  \"https://b2b.lifepack.id/images/prescription/prescription-1591238976100085.jpg\",\n  \"https://b2b.lifepack.id/images/prescription/prescription-1591238976106402.jpeg\"\n ],\n \"products\": [\n  {\n   \"currency\": \"IDR\",\n   \"id\": 512,\n   \"name\": \"GLIBENCLAMID 5 MG\",\n   \"price\": 3002,\n   \"qty\": 10,\n   \"type\": \"Tablet\"\n  },\n  {\n   \"currency\": \"IDR\",\n   \"id\": 1024,\n   \"name\": \"SALOFALK 500 MG\",\n   \"price\": 108300,\n   \"qty\": 5,\n   \"type\": \"Tablet\"\n  }\n ],\n \"reject_reason\": null,\n \"start_date\": \"2020-06-04 07:00:00\",\n \"status\": \"active\",\n \"updated_at\": \"2020-06-04 11:28:46\"\n}"
+                                }
+                            ]
+                        }
+                    ],
+                    "id": "6832b55f-01d1-48f4-a113-6a99fa26387f"
+                },
+                {
+                    "name": "City Coverage",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "50e8fb61-20e3-4d57-b3e4-11a86af39744",
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "id": "4980a8d7-679f-48fe-b0b0-d225341a66cc",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/partner/v1/address/cities",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "partner",
+                                "v1",
+                                "address",
+                                "cities"
+                            ]
+                        },
+                        "description": "You can get list of supported city coverage for our service. Then, should pass the `id` to `city_id` parameter in submit prescription data endpoint.\r\n\r\n### Response Parameters\r\n\r\n| Parameter | Description                      |\r\n|-----------|----------------------------------|\r\n| id        | `integer` City Coverage ID       |\r\n| name      | `string` City name               |\r\n|           | Maximum length is 255 characters |"
+                    },
+                    "response": [
+                        {
+                            "id": "8f07d1cb-b4d6-4b9b-ad0b-6bf5ae022f14",
+                            "name": "Success Get City Coverage",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/address/cities",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "address",
+                                        "cities"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "close",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "125",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Tue, 21 Jul 2020 07:53:39 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"7d-XOTtoruEKGCVdFoyVNsYgORh4N8\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Referrer-Policy",
+                                    "value": "no-referrer",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Server",
+                                    "value": "nginx",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=31536000",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-XSS-Protection",
+                                    "value": "1; mode=block",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "[\n {\n  \"id\": \"1\",\n  \"name\": \"DKI Jakarta\"\n },\n {\n  \"id\": \"2\",\n  \"name\": \"Tangerang & Banten\"\n },\n {\n  \"id\": \"3\",\n  \"name\": \"Jawa Barat\"\n },\n {\n  \"id\": \"4\",\n  \"name\": \"Jawa Tengah - Jawa Timur - Bali\"\n },\n {\n  \"id\": \"5\",\n  \"name\": \"Sumatera\"\n },\n {\n  \"id\": \"6\",\n  \"name\": \"Kalimantan\"\n },\n {\n  \"id\": \"7\",\n  \"name\": \"Indonesia Timur Lainnya\"\n }\n]"
+                        }
+                    ]
+                },
+                {
+                    "name": "Change Payment Status to Paid",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "6370421f-2d7a-4e8a-88e2-4fb17e9c9dc7",
+                                "exec": [
+                                    "pm.test(\"Status code is 400\", function () {",
+                                    "    pm.response.to.have.status(400);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "id": "2003cd1a-f8af-4dfd-9507-4a2ec176b97a",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\",\n    \"subscription_id\": 12\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/partner/v1/payment",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "partner",
+                                "v1",
+                                "payment"
+                            ]
+                        },
+                        "description": "This endpoint is used to change payment status to paid for Standard Partner account type. If you have Payment on Us partner account type, you are forbidden to hit this endpoint. Please refer to [this](#partner-account-types) section for more information.\n\nIdeally, this endpoint is should be called after you got a subscription notification which the status changes to `payment_order` and you have successfully charge your customer for the payment. This endpoint only supposed to called once, when the status is `payment_order`.\n\n### Signature\n\nWhen calling this endpoint, you will need to send a hashed signature with this algorithm:\n```\nSHA512(ServerKey + SubscriptionId + Amount)\n\nServerKey = Partner Server Key\nSubscriptionId = refers to *id* in Subscription Detail\nAmount = refers to *payment.total_price* in Subscription Detail\n```\nNote: Amount should has 2 decimal places.\n\n#### Sample Code for Generating Signature (node.js)\n\n```\nconst Crypto = require('crypto');\n\nfunction generateSignature(serverKey, subscriptionId, amount) {\n    const stringKey = `${serverKey}${subscriptionId}${amount}`;\n    return Crypto.createHash('sha512').update(stringKey).digest('hex');\n}\n\nconst serverKey = '36fec90790f0ada49b009b146';\nconst subscriptionId = 12;\nconst amount = '100000.00';\n\nconsole.log(`Signature Key: ${generateSignature(serverKey, subscriptionId, amount)}`);\n```\n\n### Request Parameters\n\n| Parameter       | Description                                    |\n|-----------------|------------------------------------------------|\n| subscription_id | `integer` Subscription ID                      |\n| signature_key   | `string` Signature for current subscription ID |\n\n### Response\n\nIt will return `400 Bad Request` error if the subscription ID or signature key is not valid. Otherwise, the response will be `200 OK` with the structure below if payment status has successfully changed.\n\n| Parameter | Description                                            |\n|-----------|--------------------------------------------------------|\n| status    | `enum` Payment request status                          |\n|           | Possible values: `SUCCESS`, `FAILED`                   |\n| error     | `nullable` Refer to error entity below                 |\n|           | Will only be sent if the `status` response is `FAILED` |\n\n#### Error Entity\n\n| Parameter  | Description                        |\n|------------|------------------------------------|\n| error_code | `enum` Error code                  |\n|            | Refer to error codes section below |\n| message    | `string` Error message             |\n\n#### Error Codes\n\n| Error Code                         | Description                                              |\n|------------------------------------|----------------------------------------------------------|\n| SUBSCRIPTION_ALREADY_PAID          | Subscription is already paid before                      |\n| SUBSCRIPTION_NOT_READY_TO_PAID     | Subscription is still on review and not ready to be paid |\n| SUBSCRIPTION_NOT_FOUND             | Subscription is not found                                |\n| SUBSCRIPTION_SIGNATURE_KEY_INVALID | Signature key invalid                                    |"
+                    },
+                    "response": [
+                        {
+                            "id": "9d6e9bd7-958d-47c3-aa5d-dce34b808140",
+                            "name": "Subscription not Found",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\",\n    \"subscription_id\": 12\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/payment",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "payment"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "keep-alive",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "77",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Thu, 14 May 2020 03:33:10 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"4d-7m/y44GLTQ1U0X3UBGrgknqf2ns\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"error_code\": \"SUBSCRIPTION_NOT_FOUND\",\n \"message\": \"Subscription is not found\"\n}"
+                        },
+                        {
+                            "id": "4df7f453-5297-46fa-b2fb-1ddae5ae665f",
+                            "name": "Failed Change Payment Status",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\",\n    \"subscription_id\": 12\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/payment",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "payment"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "keep-alive",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "117",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Thu, 14 May 2020 03:32:30 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"75-HZH3y/v7rIcxgWLpsta3OvT91kY\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"error\": {\n  \"error_code\": \"SUBSCRIPTION_NOT_READY_TO_PAID\",\n  \"message\": \"Subscription is still on review and not ready to be paid\"\n },\n \"status\": \"FAILED\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Submit Prescription Data",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "0a057f01-62f1-4ab9-8a64-059522f6b9a4",
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "id": "ab4f4a16-16b6-488f-8218-28947a7e68ee",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"city_id\": 1,\n    \"doctor\": {\n        \"name\": \"Faldy\",\n        \"phone_number\": \"+676767754567\",\n        \"sip\": \"SIPDOKTER\",\n        \"specialty\": \"Cardiologist\"\n    },\n    \"insurance\": {\n        \"benefit\": \"\",\n        \"card_number\": \"1221212\",\n        \"company_name\": \"Asuransiku\",\n        \"insurance_class\": \"group\",\n        \"member_number\": \"89892893\",\n        \"policy_number\": \"123132321313\",\n        \"type\": \"Non-VIP\"\n    },\n    \"patient\": {\n        \"address\": {\n            \"district\": \"South Jakarta\",\n            \"first_line\": \"Menara Palma\",\n            \"latitude\": -6.170166,\n            \"longitude\": 106.831375,\n            \"note\": \"Graha Irama\",\n            \"postal_code\": \"98767\",\n            \"province\": \"DKI Jakarta\",\n            \"second_line\": \"Jl. Hr. Rasuna Said Blok X2 No. 6\",\n            \"sub_district\": \"Setiabudi\"\n        },\n        \"age\": 45,\n        \"allergy\": \"Alergi debu\",\n        \"diagnose\": \"Hipertensi\",\n        \"gender\": \"male\",\n        \"name\": \"Jono Hipertensi\",\n        \"phone_number\": \"+628712312312\",\n        \"weight\": 102.2\n    },\n    \"prescription_photo_id\": null,\n    \"products\": [\n        {\n            \"direction\": \"setelah makan\",\n            \"dosage_per_day\": 3,\n            \"dosage_per_unit\": 1,\n            \"notes\": \"habiskan\",\n            \"product_id\": 1,\n            \"quantity\": 50\n        },\n        {\n            \"direction\": \"setelah makan\",\n            \"dosage_per_day\": 3,\n            \"dosage_per_unit\": 1,\n            \"notes\": \"habiskan\",\n            \"product_id\": 2,\n            \"quantity\": 50\n        }\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/partner/v1/prescription",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "partner",
+                                "v1",
+                                "prescription"
+                            ]
+                        },
+                        "description": "You can submit prescription photos or prescription medication informations to get a subscription using this endpoint. After you have submitted your prescription, you will get a subscription with `in_review` status that would be reviewed by our pharmacists.\n\nWe are using Reverse Geocoding to convert latitude and longitude values to address details. Therefore, you are only required to fill the latitude and longitude address and not required to fill the address detail. But if you prefer and/or have more accurate data, we will use the address details value that you send to us instead of the reverse geocoded ones. If you don't have any customer address coordinate data, you can apply for Payment on Us partner account type so you can send address entity without coordinate data. Please refer to [this](#partner-account-types) section for more information.\n\n### Request Parameters\n\n| Parameter             | Description                                                                                   |\n|-----------------------|-----------------------------------------------------------------------------------------------|\n| prescription_photo_id | `optional` `number` Prescription Photo ID                                                     |\n|                       | Required if `products` and `medications` parameter is set to `null`            |\n| city_id               | `optional` `integer` City ID                                                                  |\n|                       | Please refer to [this](#68973471-4bc6-4071-ba30-127c8063fd9d) section to obtain city ID       |\n|                       | If this field is not set, default value will be gathered from doctor's first clinic location. |\n|                       | This will also affects the delivery price                                                     |\n| products              | `optional` `object[]` Refer to product entity below                                           |\n|                       | Required if `prescription_photo_id` and `medications` is set to `null`                        |\n| medications           | `optional` `string` Medications list (free text and accepts `\\n`)                             |\n|                       | Required if `prescription_photo_id` and `products` is set to `null`                           |\n| doctor                | `object` Refer to doctor entity below                                                         |\n| patient               | `object` Refer to patient entity below                                                        |\n| insurance             | `nullable` `object` Refer to insurance entity below                                           |\n\n#### Product Entity\n\n| Parameter       | Description                                                                                |\n|-----------------|--------------------------------------------------------------------------------------------|\n| product_id      | `integer` Product ID                                                                       |\n| quantity        | `integer` Medicine quantity                                                                |\n|                 | Value should be greater than 0                                                             |\n| dosage_per_day  | `integer` Medicine dosage per day                                                          |\n|                 | Value should be greater than 0                                                             |\n| dosage_per_unit | `decimal` Medicine dosage per unit                                                         |\n|                 | Value should be greater than 0                                                             |\n| direction       | `string` Medicine direction                                                                |\n|                 | Example: `1 on morning, 2 on evening`                                                      |\n|                 | Length should be greater than 0                                                            |\n| notes           | `optional` `string` Medicine notes                                                         |\n|                 | Fill this if only there is any concerned notes that is not covered within attributes above |\n|                 | Example: `finish the medicine`                                                             |\n\n#### Doctor Entity\n\n| Parameter    | Description                                                                                |\n|--------------|--------------------------------------------------------------------------------------------|\n| name         | `string` Name of the doctor                                                                |\n|              | Won't override existing doctor data if the doctor with current phone number already exists |\n|              | Length should be within 3 to 36 characters                                                 |\n|              | Only alphanumeric and space characters are allowed                                         |\n| phone_number | `string` Phone number of the doctor                                                        |\n|              | Value should be started with \"+\" followed with series of numbers                           |\n|              | Length should be within 9 to 15 characters                                                 |\n| specialty    | `optional` `string` Doctor specialization                                                  |\n|              | Length should be less than or equal to 100                                                 |\n| sip          | `optional` `string` Doctor SIP                                                             |\n|              | Length should be less than or equal to 100                                                 |\n\n#### Patient Entity\n\n| Parameter    | Description                                                                                                                           |\n|--------------|---------------------------------------------------------------------------------------------------------------------------------------|\n| name         | `string` Name of the patient                                                                                                          |\n|              | Length should be within 3 to 36 characters                                                                                            |\n| phone_number | `string` Phone number of the patient                                                                                                  |\n|              | Value should be started with \"+\" followed with series of numbers                                                                      |\n|              | Length should be within 9 to 15 characters                                                                                            |\n|              | `optional` `string` Patient's allergy                                                                                                 |\n| allergy      | `integer` Patient's age                                                                                                               |\n| diagnose     | `string` Patient diagnose                                                                                                             |\n|              | Length should be within 3 to 255 characters                                                                                           |\n| age          | `number` Patient's age                                                                                                                |\n|              | Value should be greater than or equal to 0                                                                                            |\n| age_unit     | `optional` `enum` Patient's age unit                                                                                                  |\n|              | Valid values: `years`, `months`, `days`. Default: `years`                                                                             |\n| weight       | `number` Patient's body weight in kilograms                                                                                           |\n|              | Value should be greater than or equal to 0                                                                                            |\n| gender       | `enum` Patient's gender                                                                                                               |\n|              | Valid values: `male`, `female`                                                                                                        |\n| address      | `object` Refer to address entity below                                                                                                |\n|              | Only `optional` if partner account type is Payment on Us. Please refer to [this](#partner-account-types) section for more information |\n\n#### Address Entity\n\n| Parameter    | Description                                                                                                                           |\n|--------------|---------------------------------------------------------------------------------------------------------------------------------------|\n| latitude     | `number` Address latitude                                                                                                             |\n|              | Only `optional` if partner account type is Payment on Us. Please refer to [this](#partner-account-types) section for more information |\n|              | Value should be within -90 and 90                                                                                                     |\n| longitude    | `number` Address longitude                                                                                                            |\n|              | Only `optional` if partner account type is Payment on Us. Please refer to [this](#partner-account-types) section for more information |\n|              | Value should be within -180 and 180                                                                                                   |\n| first_line   | `optional` `string` Address first line                                                                                                |\n|              | Length should be less than or equal to 255                                                                                            |\n| second_line  | `optional` `string` Address second line                                                                                               |\n|              | Length should be less than or equal to 255                                                                                            |\n| note         | `optional` `string` Address notes                                                                                                     |\n|              | Length should be less than or equal to 255                                                                                            |\n| province     | `optional` `string` Address province                                                                                                  |\n|              | Length should be less than or equal to 255                                                                                            |\n| district     | `optional` `string` Address district                                                                                                  |\n|              | Length should be less than or equal to 255                                                                                            |\n| sub_district | `optional` `string` Address sub district                                                                                              |\n|              | Length should be less than or equal to 255                                                                                            |\n| postal_code  | `optional` `string` Address postal code                                                                                               |\n|              | Length should be less than or equal to 255                                                                                            |\n\n### Insurance Entity\n| Parameter       | Description                                                                                                                            |\n|-----------------|----------------------------------------------------------------------------------------------------------------------------------------|\n| company_name    | `optional` `string` Insurance company name                                                                                             |\n|                 | Value should be matches with insurance that has already informed to us. Please let us know if you have a new insurance name registered |\n| policy_number   | `optional` `string` Insurance policy number                                                                                            |\n| member_number   | `optional` `string` Insurance member number                                                                                            |\n| card_number     | `string` Insurance card number                                                                                                         |\n|                 | Only required if insurance company name is filled                                                                                      |\n| insurance_class | `string` Insurance class                                                                                                               |\n|                 | Only required if insurance company name is filled                                                                                      |\n| type            | `string` Insurance type                                                                                                                |\n|                 | Only required if insurance company name is filled                                                                                      |\n| benefit         | `optional` `string` Insurance benefits                                                                                                 |\n\n### Response Parameters\n\n| Parameter       | Description               |\n|-----------------|---------------------------|\n| subscription_id | `integer` Subscription ID |\n| patient_id      | `integer` Patient ID      |\n| doctor_id       | `integer` Doctor ID       |"
+                    },
+                    "response": [
+                        {
+                            "id": "dd323b5d-fac0-4d66-80ca-53087b7463f6",
+                            "name": "Submit Prescription Data With non-strict Product Details",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"city_id\": 1,\n    \"doctor\": {\n        \"name\": \"Faldy\",\n        \"phone_number\": \"+676767754567\",\n        \"sip\": \"SIPDOKTER\",\n        \"specialty\": \"Cardiologist\"\n    },\n    \"insurance\": {\n        \"benefit\": \"\",\n        \"card_number\": \"1221212\",\n        \"company_name\": \"Asuransiku\",\n        \"insurance_class\": \"group\",\n        \"member_number\": \"89892893\",\n        \"policy_number\": \"123132321313\",\n        \"type\": \"Non-VIP\"\n    },\n    \"patient\": {\n        \"address\": {\n            \"district\": \"South Jakarta\",\n            \"first_line\": \"Menara Palma\",\n            \"latitude\": -6.170166,\n            \"longitude\": 106.831375,\n            \"note\": \"Graha Irama\",\n            \"postal_code\": \"98767\",\n            \"province\": \"DKI Jakarta\",\n            \"second_line\": \"Jl. Hr. Rasuna Said Blok X2 No. 6\",\n            \"sub_district\": \"Setiabudi\"\n        },\n        \"age\": 45,\n        \"allergy\": \"Alergi debu\",\n        \"diagnose\": \"Hipertensi\",\n        \"gender\": \"male\",\n        \"name\": \"Jono Hipertensi\",\n        \"phone_number\": \"+628712312312\",\n        \"weight\": 102.2\n    },\n    \"prescription_photo_id\": null,\n    \"products\": [\n        {\n            \"direction\": \"setelah makan\",\n            \"dosage_per_day\": 3,\n            \"dosage_per_unit\": 1,\n            \"notes\": \"habiskan\",\n            \"product_id\": 1,\n            \"quantity\": 50\n        },\n        {\n            \"direction\": \"setelah makan\",\n            \"dosage_per_day\": 3,\n            \"dosage_per_unit\": 1,\n            \"notes\": \"habiskan\",\n            \"product_id\": 2,\n            \"quantity\": 50\n        }\n    ]\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/prescription",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "prescription"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "close",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "56",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Tue, 26 May 2020 04:40:29 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"38-gMXWIPKCeZ2z0sZtZ/g8JfqMSGc\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Referrer-Policy",
+                                    "value": "no-referrer",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Server",
+                                    "value": "nginx",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=31536000",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-XSS-Protection",
+                                    "value": "1; mode=block",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"doctor_id\": 244,\n \"patient_id\": 183,\n \"subscription_id\": 351\n}"
+                        },
+                        {
+                            "id": "bd6346e4-c8b9-4ca2-ac5a-6fd6aca3fc27",
+                            "name": "One of the Products not Found",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"city_id\": 1,\n    \"doctor\": {\n        \"name\": \"Faldy\",\n        \"phone_number\": \"+676767754567\",\n        \"sip\": \"SIPDOKTER\",\n        \"specialty\": \"Cardiologist\"\n    },\n    \"insurance\": {\n        \"benefit\": \"\",\n        \"card_number\": \"1221212\",\n        \"company_name\": \"Asuransiku\",\n        \"insurance_class\": \"group\",\n        \"member_number\": \"89892893\",\n        \"policy_number\": \"123132321313\",\n        \"type\": \"Non-VIP\"\n    },\n    \"patient\": {\n        \"address\": {\n            \"district\": \"South Jakarta\",\n            \"first_line\": \"Menara Palma\",\n            \"latitude\": -6.170166,\n            \"longitude\": 106.831375,\n            \"note\": \"Graha Irama\",\n            \"postal_code\": \"98767\",\n            \"province\": \"DKI Jakarta\",\n            \"second_line\": \"Jl. Hr. Rasuna Said Blok X2 No. 6\",\n            \"sub_district\": \"Setiabudi\"\n        },\n        \"age\": 45,\n        \"allergy\": \"Alergi debu\",\n        \"diagnose\": \"Hipertensi\",\n        \"gender\": \"male\",\n        \"name\": \"Jono Hipertensi\",\n        \"phone_number\": \"+628712312312\",\n        \"weight\": 102.2\n    },\n    \"prescription_photo_id\": null,\n    \"products\": [\n        {\n            \"direction\": \"setelah makan\",\n            \"dosage_per_day\": 3,\n            \"dosage_per_unit\": 1,\n            \"notes\": \"habiskan\",\n            \"product_id\": 1,\n            \"quantity\": 50\n        },\n        {\n            \"direction\": \"setelah makan\",\n            \"dosage_per_day\": 3,\n            \"dosage_per_unit\": 1,\n            \"notes\": \"habiskan\",\n            \"product_id\": 2,\n            \"quantity\": 50\n        }\n    ]\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/prescription",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "prescription"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "access-control-allow-origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "content-length",
+                                    "value": "64",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "date",
+                                    "value": "Tue, 01 Sep 2020 10:00:40 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "etag",
+                                    "value": "W/\"40-1grZnfSF7+98rWMOqIMEHnjJDxA\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "strict-transport-security",
+                                    "value": "max-age=2592000",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "x-forwarded-proto",
+                                    "value": "https",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "x-powered-by",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"error_code\": \"PRODUCT_NOT_FOUND\",\n \"message\": \"Product not found\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Upload Prescription Photo",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "id": "9853c394-167b-4f4c-a45e-619444376fc3",
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "id": "1cf4f645-10ee-4fb7-97ff-5ead86fec6b5",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/octet-stream"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "\"\""
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/partner/v1/prescription-photo",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "partner",
+                                "v1",
+                                "prescription-photo"
+                            ]
+                        },
+                        "description": "By hitting this endpoint, you can add photos to the prescription, and you can add multiple images too. You must hit this first before you hit create new prescription endpoint. You can add multiple images by sending multiple `prescription` parameter in your request body.\n\n### Response Parameters\n\n| Parameter             | Description                     |\n|-----------------------|---------------------------------|\n| prescription_photo_id | `integer` Prescription Photo ID |"
+                    },
+                    "response": [
+                        {
+                            "id": "0e7fc25f-dd46-4cc7-890d-d4c5272784e4",
+                            "name": "Upload Multiple Prescription Photo",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "\"\""
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/prescription-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "prescription-photo"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "close",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "30",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Thu, 28 May 2020 08:18:02 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"1e-+ywOPMiudbevh4E9Kkqs0xYbwvE\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Referrer-Policy",
+                                    "value": "no-referrer",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Server",
+                                    "value": "nginx",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Strict-Transport-Security",
+                                    "value": "max-age=31536000",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Content-Type-Options",
+                                    "value": "nosniff",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Frame-Options",
+                                    "value": "SAMEORIGIN",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-XSS-Protection",
+                                    "value": "1; mode=block",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"prescription_photo_id\": 1641\n}"
+                        },
+                        {
+                            "id": "daea6615-0632-4a71-871b-f57906cb1343",
+                            "name": "Incorrect Image Format",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "\"\""
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/prescription-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "prescription-photo"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "keep-alive",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "100",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Thu, 14 May 2020 01:57:22 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"64-0pzb7lB6AUfLICzm8Lg1/Kqmwfk\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"error_code\": \"PRESCRIPTION_IMAGE_FORMAT_INCORRECT\",\n \"message\": \"Prescription image format incorrect\"\n}"
+                        },
+                        {
+                            "id": "8793cff4-89ba-4878-a1f9-1710c654237c",
+                            "name": "Internal Server Error",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "\"\""
+                                },
+                                "url": {
+                                    "raw": "{{baseUrl}}/partner/v1/prescription-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "partner",
+                                        "v1",
+                                        "prescription-photo"
+                                    ]
+                                }
+                            },
+                            "status": "Internal Server Error",
+                            "code": 500,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "disabled": false,
+                                    "key": "Access-Control-Allow-Origin",
+                                    "value": "*",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Connection",
+                                    "value": "keep-alive",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Content-Length",
+                                    "value": "72",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "Date",
+                                    "value": "Thu, 14 May 2020 01:59:21 GMT",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "ETag",
+                                    "value": "W/\"48-AGgvIH6i59zjlHB9eSttZ7AjawA\"",
+                                    "description": ""
+                                },
+                                {
+                                    "disabled": false,
+                                    "key": "X-Powered-By",
+                                    "value": "Express",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"error_code\": \"INTERNAL_SERVER_ERROR\",\n \"message\": \"Internal Server Error\"\n}"
+                        }
+                    ]
+                }
+            ],
+            "id": "fcb4b784-219f-4d48-8bcc-ca5fe361f1a4"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "id": "b1d4e90d-d62f-4bf3-8586-f4583ec22a48",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "5d4a329f-b009-4f28-8ee3-b5c133fd0d21",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "id": "b1c21177-4bf6-4ec9-906f-17f58b591f05",
+            "key": "baseUrl",
+            "value": "{{LIFEPACK_BASE_URL}}"
+        }
+    ]
+}
