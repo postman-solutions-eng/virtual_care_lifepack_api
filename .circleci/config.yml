@@ -2,8 +2,6 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-version: 2.1
-
 orbs:
   newman: postman/newman@0.0.2
 
@@ -14,8 +12,8 @@ jobs:
       - checkout
 
       - newman/newman-run:
-          collection: https://api.getpostman.com/collections/16952431-454ce176-6370-4514-bc84-cc27150adff1?apikey=$RETAIL_API_KEY
-          environment: https://api.getpostman.com/environments/16901628-af0542ca-ccb8-43bb-b8e5-07ef384316d8?apikey=$RETAIL_API_KEY
+          collection: https://api.getpostman.com/collections/16952431-454ce176-6370-4514-bc84-cc27150adff1?apikey=$POSTMAN_API_KEY
+          environment: https://api.getpostman.com/environments/16901628-af0542ca-ccb8-43bb-b8e5-07ef384316d8?apikey=$POSTMAN_API_KEY
 
 
 # Invoke jobs via workflows
