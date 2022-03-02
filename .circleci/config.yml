@@ -14,6 +14,10 @@ jobs:
       - newman/newman-run:
           collection: https://api.getpostman.com/collections/16952431-454ce176-6370-4514-bc84-cc27150adff1?apikey=$POSTMAN_API_KEY
           environment: https://api.getpostman.com/environments/16901628-af0542ca-ccb8-43bb-b8e5-07ef384316d8?apikey=$POSTMAN_API_KEY
+          additional-options: cli,html,openapi
+      - run:
+          name: OpenAPI reporter
+          command: newman run --reporter-openapi-spec
 
 
 # Invoke jobs via workflows
