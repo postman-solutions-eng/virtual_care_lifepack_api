@@ -4,6 +4,7 @@ version: 2.1
 
 orbs:
   newman: postman/newman@0.0.2
+  node: circleci/node@5.0.0
 
 jobs:
   newman-collection-run:
@@ -21,4 +22,5 @@ jobs:
 workflows:
   newman-workflow:
     jobs:
+      - node/run
       - newman-collection-run
