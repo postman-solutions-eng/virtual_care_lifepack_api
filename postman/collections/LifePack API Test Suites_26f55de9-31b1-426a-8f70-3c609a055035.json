@@ -1237,7 +1237,9 @@
                                 "exec": [
                                     "pm.test(\"Status code is 200\", function () {",
                                     "    pm.response.to.have.status(200);",
-                                    "});"
+                                    "});",
+                                    "",
+                                    ""
                                 ],
                                 "type": "text/javascript"
                             }
@@ -2148,7 +2150,7 @@
     ],
     "variable": [
         {
-            "id": "b5f95311-b949-42ca-be71-971f8fbba5d9",
+            "id": "aca6890e-52a4-46e6-9a15-1f31f9ae8969",
             "key": "baseUrl",
             "value": "{{LIFEPACK_BASE_URL}}"
         }
