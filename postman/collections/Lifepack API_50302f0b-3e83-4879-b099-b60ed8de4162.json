@@ -1027,6 +1027,21 @@
                         },
                         {
                             "name": "Subscription Detail",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "023c8bbe-6986-4710-986e-67ccec4b15ae",
+                                        "exec": [
+                                            "pm.test(\"Active status found\", function () {",
+                                            "    var jsonData = pm.response.json();",
+                                            "    pm.expect(jsonData.id).to.eql(411);",
+                                            "});"
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
                             "id": "f8d570de-4564-406c-b3b7-18bcd21fdebf",
                             "protocolProfileBehavior": {
                                 "disableBodyPruning": true
@@ -1236,140 +1251,6 @@
                                     "cookie": [],
                                     "responseTime": null,
                                     "body": "{\n\t\"status\": \"SUCCESS\"\n}"
-                                },
-                                {
-                                    "id": "436281d9-29c7-4277-b5c2-cd514446108c",
-                                    "name": "Failed Change Payment Status",
-                                    "originalRequest": {
-                                        "method": "PUT",
-                                        "header": [],
-                                        "body": {
-                                            "mode": "raw",
-                                            "raw": "{\n    \"subscription_id\": 12,\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\"\n}",
-                                            "options": {
-                                                "raw": {
-                                                    "language": "json"
-                                                }
-                                            }
-                                        },
-                                        "url": {
-                                            "raw": "{{LIFEPACK_BASE_URL}}/partner/v1/payment",
-                                            "host": [
-                                                "{{LIFEPACK_BASE_URL}}"
-                                            ],
-                                            "path": [
-                                                "partner",
-                                                "v1",
-                                                "payment"
-                                            ]
-                                        }
-                                    },
-                                    "status": "OK",
-                                    "code": 200,
-                                    "_postman_previewlanguage": "json",
-                                    "header": [
-                                        {
-                                            "key": "X-Powered-By",
-                                            "value": "Express"
-                                        },
-                                        {
-                                            "key": "Access-Control-Allow-Origin",
-                                            "value": "*"
-                                        },
-                                        {
-                                            "key": "Content-Type",
-                                            "value": "application/json; charset=utf-8"
-                                        },
-                                        {
-                                            "key": "Content-Length",
-                                            "value": "117"
-                                        },
-                                        {
-                                            "key": "ETag",
-                                            "value": "W/\"75-HZH3y/v7rIcxgWLpsta3OvT91kY\""
-                                        },
-                                        {
-                                            "key": "Date",
-                                            "value": "Thu, 14 May 2020 03:32:30 GMT"
-                                        },
-                                        {
-                                            "key": "Connection",
-                                            "value": "keep-alive"
-                                        }
-                                    ],
-                                    "cookie": [],
-                                    "responseTime": null,
-                                    "body": "{\n    \"status\": \"FAILED\",\n    \"error\": {\n        \"error_code\": \"SUBSCRIPTION_NOT_READY_TO_PAID\",\n        \"message\": \"Subscription is still on review and not ready to be paid\"\n    }\n}"
-                                },
-                                {
-                                    "id": "54936153-e72d-494b-abed-c9bd60d51659",
-                                    "name": "Subscription not Found",
-                                    "originalRequest": {
-                                        "method": "PUT",
-                                        "header": [
-                                            {
-                                                "key": "Authorization",
-                                                "value": "{{AUTH_TOKEN}}",
-                                                "type": "text"
-                                            }
-                                        ],
-                                        "body": {
-                                            "mode": "raw",
-                                            "raw": "{\n    \"subscription_id\": 12,\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\"\n}",
-                                            "options": {
-                                                "raw": {
-                                                    "language": "json"
-                                                }
-                                            }
-                                        },
-                                        "url": {
-                                            "raw": "{{LIFEPACK_BASE_URL}}/partner/v1/payment",
-                                            "host": [
-                                                "{{LIFEPACK_BASE_URL}}"
-                                            ],
-                                            "path": [
-                                                "partner",
-                                                "v1",
-                                                "payment"
-                                            ]
-                                        }
-                                    },
-                                    "status": "Bad Request",
-                                    "code": 400,
-                                    "_postman_previewlanguage": "json",
-                                    "header": [
-                                        {
-                                            "key": "X-Powered-By",
-                                            "value": "Express"
-                                        },
-                                        {
-                                            "key": "Access-Control-Allow-Origin",
-                                            "value": "*"
-                                        },
-                                        {
-                                            "key": "Content-Type",
-                                            "value": "application/json; charset=utf-8"
-                                        },
-                                        {
-                                            "key": "Content-Length",
-                                            "value": "77"
-                                        },
-                                        {
-                                            "key": "ETag",
-                                            "value": "W/\"4d-7m/y44GLTQ1U0X3UBGrgknqf2ns\""
-                                        },
-                                        {
-                                            "key": "Date",
-                                            "value": "Thu, 14 May 2020 03:33:10 GMT"
-                                        },
-                                        {
-                                            "key": "Connection",
-                                            "value": "keep-alive"
-                                        }
-                                    ],
-                                    "cookie": [],
-                                    "responseTime": null,
-                                    "body": "{\n    \"error_code\": \"SUBSCRIPTION_NOT_FOUND\",\n    \"message\": \"Subscription is not found\"\n}"
                                 }
                             ]
                         }
@@ -1609,6 +1490,18 @@
                         },
                         {
                             "name": "Register Patient",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "id": "595a8f58-0b6b-4f7d-9e03-3d412a1f3bba",
+                                        "exec": [
+                                            ""
+                                        ],
+                                        "type": "text/javascript"
+                                    }
+                                }
+                            ],
                             "id": "c41a18d7-8ce9-40e4-8431-35ce24c1fc8c",
                             "protocolProfileBehavior": {
                                 "disableBodyPruning": true
@@ -1678,8 +1571,8 @@
                                             ]
                                         }
                                     },
-                                    "status": "No Content",
-                                    "code": 204,
+                                    "status": "Success",
+                                    "code": 200,
                                     "_postman_previewlanguage": "plain",
                                     "header": [
                                         {
@@ -1730,80 +1623,6 @@
                                     "cookie": [],
                                     "responseTime": null,
                                     "body": null
-                                },
-                                {
-                                    "id": "fc18f1bb-c727-44b2-a20d-12765eca2009",
-                                    "name": "Policy Number Already Exists",
-                                    "originalRequest": {
-                                        "method": "POST",
-                                        "header": [
-                                            {
-                                                "key": "Authorization",
-                                                "type": "text",
-                                                "value": "{{AUTH_TOKEN}}"
-                                            }
-                                        ],
-                                        "body": {
-                                            "mode": "raw",
-                                            "raw": "{\r\n    \"name\": \"Yudia\",\r\n    \"phone_number\": \"+628569240856\",\r\n    \"insurance\": {\r\n        \"company_name\": \"BNI Life\",\r\n        \"policy_number\": \"003105\"\r\n    },\r\n    \"patients\": [\r\n        {\r\n            \"name\": \"yudia\",\r\n            \"phone_number\": \"+628569240856\",\r\n            \"member_number\": \"031322\",\r\n            \"family_type\": \"self\"\r\n        },\r\n        {\r\n            \"name\": \"karno\",\r\n            \"phone_number\": \"+628547236273\",\r\n            \"member_number\": \"861534\",\r\n            \"family_type\": \"spouse\"\r\n        },\r\n        {\r\n            \"name\": \"Kenan\",\r\n            \"phone_number\": null,\r\n            \"member_number\": \"761235\",\r\n            \"family_type\": \"child\"\r\n        }\r\n    ]\r\n}",
-                                            "options": {
-                                                "raw": {
-                                                    "language": "json"
-                                                }
-                                            }
-                                        },
-                                        "url": {
-                                            "raw": "{{LIFEPACK_BASE_URL}}/partner/v1/patient",
-                                            "host": [
-                                                "{{LIFEPACK_BASE_URL}}"
-                                            ],
-                                            "path": [
-                                                "partner",
-                                                "v1",
-                                                "patient"
-                                            ]
-                                        }
-                                    },
-                                    "status": "Bad Request",
-                                    "code": 400,
-                                    "_postman_previewlanguage": "json",
-                                    "header": [
-                                        {
-                                            "key": "Server",
-                                            "value": "nginx"
-                                        },
-                                        {
-                                            "key": "Date",
-                                            "value": "Tue, 01 Sep 2020 04:04:00 GMT"
-                                        },
-                                        {
-                                            "key": "Content-Type",
-                                            "value": "application/json; charset=utf-8"
-                                        },
-                                        {
-                                            "key": "Content-Length",
-                                            "value": "77"
-                                        },
-                                        {
-                                            "key": "Connection",
-                                            "value": "close"
-                                        },
-                                        {
-                                            "key": "X-Powered-By",
-                                            "value": "Express"
-                                        },
-                                        {
-                                            "key": "Access-Control-Allow-Origin",
-                                            "value": "*"
-                                        },
-                                        {
-                                            "key": "ETag",
-                                            "value": "W/\"4d-J0yz6fh1UzIh4IL9Pa7/LtZ1FIs\""
-                                        }
-                                    ],
-                                    "cookie": [],
-                                    "responseTime": null,
-                                    "body": "{\n    \"errorCode\": \"POLICY_NUMBER_EXISTS\",\n    \"message\": \"Policy Number already exists\"\n}"
                                 },
                                 {
                                     "id": "c173532f-28fb-49e1-a145-54fc7cb83623",

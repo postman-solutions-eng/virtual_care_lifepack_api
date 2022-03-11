@@ -157,8 +157,8 @@
                                     "script": {
                                         "id": "fd9ab895-daae-48b0-b93b-34488a0cd9f0",
                                         "exec": [
-                                            "pm.test(\"Status code is 400\", function () {",
-                                            "    pm.response.to.have.status(400);",
+                                            "pm.test(\"Status code is 200\", function () {",
+                                            "    pm.response.to.have.status(200);",
                                             "});"
                                         ],
                                         "type": "text/javascript"
@@ -661,7 +661,14 @@
                             },
                             "request": {
                                 "method": "GET",
-                                "header": [],
+                                "header": [
+                                    {
+                                        "key": "x-mock-response-code",
+                                        "value": "true",
+                                        "type": "text",
+                                        "disabled": true
+                                    }
+                                ],
                                 "url": {
                                     "raw": "{{baseUrl}}/partner/v1/product/:id",
                                     "host": [
@@ -2141,7 +2148,7 @@
     ],
     "variable": [
         {
-            "id": "b1c21177-4bf6-4ec9-906f-17f58b591f05",
+            "id": "b5f95311-b949-42ca-be71-971f8fbba5d9",
             "key": "baseUrl",
             "value": "{{LIFEPACK_BASE_URL}}"
         }
