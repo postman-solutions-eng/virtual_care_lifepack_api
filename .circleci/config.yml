@@ -7,7 +7,8 @@ orbs:
 
 jobs:
   newman-collection-run:
-    executor: newman/postman-newman-docker
+    docker:
+      - image: node:16-alpine
     steps:
       - checkout
       - run:
