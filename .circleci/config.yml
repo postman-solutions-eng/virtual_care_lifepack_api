@@ -10,11 +10,14 @@ jobs:
     executor: newman/postman-newman-docker
     steps:
       - checkout
+      - run:
+          name: Install Newman and postman cloud reporter
+          command: npm install -g newman newman-reporter-postman-cloud
 
       - newman/newman-run:
           collection: https://api.getpostman.com/collections/16952431-454ce176-6370-4514-bc84-cc27150adff1?apikey=$POSTMAN_API_KEY
           environment: https://api.getpostman.com/environments/16901628-af0542ca-ccb8-43bb-b8e5-07ef384316d8?apikey=$POSTMAN_API_KEY 
-          additional-options: --reporters cli,html,openapi --reporter-openapi-spec
+          additional-options: --reporters cli,html,openapi,postman-cloud --reporter-apiKey "${POSTMAN_API_KEY}" --reporter-workspaceId "a12dde60-c321-4797-af83-4f2ab255023d" --reporter-integrationIdentifier "104171-${CIRCLE_WORKFLOW_JOB_ID}"
 
 
 # Invoke jobs via workflows
