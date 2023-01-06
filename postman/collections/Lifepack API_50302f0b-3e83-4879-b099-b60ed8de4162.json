@@ -1599,6 +1599,18 @@
 						},
 						{
 							"name": "Register Patient",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "86294531-bf9e-492e-9cda-d934d36195d2",
+										"exec": [
+											"postman.setNextRequest(\"City Coverage\")"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"id": "f0a6a1b8-c464-4378-acb5-53f58fbdc1a2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -1957,7 +1969,7 @@
 								"method": "GET",
 								"header": [
 									{
-										"key": "x-mock-response-code",
+										"key": "x-mock-match-request-headers",
 										"value": "200",
 										"type": "text"
 									}
@@ -2010,7 +2022,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/product?keyword=%&city_id=2&limit=10&offset=0",
+											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/product?keyword=paracetamol&city_id=2&limit=10&offset=0",
 											"host": [
 												"{{LIFEPACK_BASE_URL}}"
 											],
@@ -2022,7 +2034,7 @@
 											"query": [
 												{
 													"key": "keyword",
-													"value": "%",
+													"value": "paracetamol",
 													"description": "`required` `string` Product search keyword"
 												},
 												{
@@ -2263,6 +2275,11 @@
 										"key": "Authorization",
 										"type": "text",
 										"value": "{{AUTH_TOKEN}}"
+									},
+									{
+										"key": "x-mock-response-code",
+										"value": "200",
+										"type": "text"
 									}
 								],
 								"url": {
@@ -2287,78 +2304,6 @@
 								"description": "You can get product detail information from this endpoint.\n\n### Response Parameters\n\n| Parameter          | Description                          |\n|--------------------|--------------------------------------|\n| id                 | `integer` Product ID                 |\n| name               | `string` Product name                |\n|                    | Maximum length is 100 characters     |\n| description        | `string` Product description         |\n| type               | `string` Product type                |\n|                    | Maximum length is 100 characters     |\n| stock_availability | `boolean` Product stock avaliability |"
 							},
 							"response": [
-								{
-									"id": "8601d202-6a60-4a78-97e8-7972a6a7ea28",
-									"name": "Failed Get Product Detail",
-									"originalRequest": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"type": "text",
-												"value": "{{AUTH_TOKEN}}"
-											}
-										],
-										"url": {
-											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/product/:id",
-											"host": [
-												"{{LIFEPACK_BASE_URL}}"
-											],
-											"path": [
-												"partner",
-												"v1",
-												"product",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "100000",
-													"description": "`number` Product ID"
-												}
-											]
-										}
-									},
-									"status": "Internal Server Error",
-									"code": 500,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx"
-										},
-										{
-											"key": "Date",
-											"value": "Fri, 22 May 2020 04:45:23 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "72"
-										},
-										{
-											"key": "Connection",
-											"value": "close"
-										},
-										{
-											"key": "X-Powered-By",
-											"value": "Express"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "ETag",
-											"value": "W/\"48-AGgvIH6i59zjlHB9eSttZ7AjawA\""
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"error_code\": \"INTERNAL_SERVER_ERROR\",\n    \"message\": \"Internal Server Error\"\n}"
-								},
 								{
 									"id": "a81c1f91-8880-4d4c-b4f5-ded9a605140b",
 									"name": "Success Get Product Detail",
@@ -2450,6 +2395,78 @@
 									],
 									"cookie": [],
 									"body": "{\n    \"id\": 1,\n    \"name\": \"Arthozan Gc+Msm\",\n    \"type\": \"kapsul\",\n    \"description\": \"\",\n    \"stock_availability\": true\n}"
+								},
+								{
+									"id": "8601d202-6a60-4a78-97e8-7972a6a7ea28",
+									"name": "Failed Get Product Detail",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{AUTH_TOKEN}}"
+											}
+										],
+										"url": {
+											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/product/:id",
+											"host": [
+												"{{LIFEPACK_BASE_URL}}"
+											],
+											"path": [
+												"partner",
+												"v1",
+												"product",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "100000",
+													"description": "`number` Product ID"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 22 May 2020 04:45:23 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "72"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"48-AGgvIH6i59zjlHB9eSttZ7AjawA\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"error_code\": \"INTERNAL_SERVER_ERROR\",\n    \"message\": \"Internal Server Error\"\n}"
 								},
 								{
 									"id": "65c9e2c1-6791-478b-b5d7-439f371ccdd0",
