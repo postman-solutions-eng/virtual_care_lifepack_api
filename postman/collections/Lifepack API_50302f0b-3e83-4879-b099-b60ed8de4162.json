@@ -1271,8 +1271,139 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n\t\"status\": \"SUCCESS\"\n}"
+								},
+								{
+									"id": "417ffda9-6b63-4fb1-ae2c-d051115e5f90",
+									"name": "Failed Change Payment Status",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"subscription_id\": 12,\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/payment",
+											"host": [
+												"{{LIFEPACK_BASE_URL}}"
+											],
+											"path": [
+												"partner",
+												"v1",
+												"payment"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "117"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"75-HZH3y/v7rIcxgWLpsta3OvT91kY\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 14 May 2020 03:32:30 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": \"FAILED\",\n    \"error\": {\n        \"error_code\": \"SUBSCRIPTION_NOT_READY_TO_PAID\",\n        \"message\": \"Subscription is still on review and not ready to be paid\"\n    }\n}"
+								},
+								{
+									"id": "b7aa5103-2f5a-4dc2-9a3c-1c87edd22f3d",
+									"name": "Subscription not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{AUTH_TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"subscription_id\": 12,\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/payment",
+											"host": [
+												"{{LIFEPACK_BASE_URL}}"
+											],
+											"path": [
+												"partner",
+												"v1",
+												"payment"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4d-7m/y44GLTQ1U0X3UBGrgknqf2ns\""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 14 May 2020 03:33:10 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"error_code\": \"SUBSCRIPTION_NOT_FOUND\",\n    \"message\": \"Subscription is not found\"\n}"
 								}
 							]
 						}
@@ -1518,9 +1649,9 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0b921533-2eaa-49b2-9a4a-0040852b435a",
+										"id": "86294531-bf9e-492e-9cda-d934d36195d2",
 										"exec": [
-											""
+											"postman.setNextRequest(\"City Coverage\")"
 										],
 										"type": "text/javascript"
 									}
@@ -1646,11 +1777,83 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": null
 								},
 								{
-									"id": "81ed8323-8140-4cc7-821b-0d28253176e7",
+									"id": "34e32fe7-a67b-4945-ac68-e8a40ef247b5",
+									"name": "Policy Number Already Exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"type": "text",
+												"value": "{{AUTH_TOKEN}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"Yudia\",\r\n    \"phone_number\": \"+628569240856\",\r\n    \"insurance\": {\r\n        \"company_name\": \"BNI Life\",\r\n        \"policy_number\": \"003105\"\r\n    },\r\n    \"patients\": [\r\n        {\r\n            \"name\": \"yudia\",\r\n            \"phone_number\": \"+628569240856\",\r\n            \"member_number\": \"031322\",\r\n            \"family_type\": \"self\"\r\n        },\r\n        {\r\n            \"name\": \"karno\",\r\n            \"phone_number\": \"+628547236273\",\r\n            \"member_number\": \"861534\",\r\n            \"family_type\": \"spouse\"\r\n        },\r\n        {\r\n            \"name\": \"Kenan\",\r\n            \"phone_number\": null,\r\n            \"member_number\": \"761235\",\r\n            \"family_type\": \"child\"\r\n        }\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/patient",
+											"host": [
+												"{{LIFEPACK_BASE_URL}}"
+											],
+											"path": [
+												"partner",
+												"v1",
+												"patient"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Server",
+											"value": "nginx"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 01 Sep 2020 04:04:00 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "77"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "Express"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"4d-J0yz6fh1UzIh4IL9Pa7/LtZ1FIs\""
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"errorCode\": \"POLICY_NUMBER_EXISTS\",\n    \"message\": \"Policy Number already exists\"\n}"
+								},
+								{
+									"id": "304aa8a1-d10f-477b-a225-493fc19587e2",
 									"name": "Member Number Already Exists",
 									"originalRequest": {
 										"method": "POST",

@@ -162,6 +162,7 @@
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
+                    "postman.setNextRequest(\"City Coverage\")"
 										],
 										"type": "text/javascript"
 									}
@@ -1389,10 +1390,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "193817ed-80c1-4aff-b630-231758e95ff8",
+								"id": "8b70a78c-574a-4e9c-b984-4ffe9ff7a790",
 								"exec": [
-									"pm.test(\"Status code is 400\", function () {",
-									"    pm.response.to.have.status(400);",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
