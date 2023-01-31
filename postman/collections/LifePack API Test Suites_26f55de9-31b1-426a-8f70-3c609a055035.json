@@ -161,7 +161,7 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
-											"});"
+											"});",
                     "postman.setNextRequest(\"City Coverage\")"
 										],
 										"type": "text/javascript"
