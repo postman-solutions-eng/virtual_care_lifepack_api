@@ -5,9 +5,8 @@ id = af061db0-fff7-4c08-ab09-869ac3785c4e
 
 [relations.collections]
 rootDirectory = postman/collections
-
-files[] = {"id":"24113271-97df082d-3850-4876-8969-8f47df9b40eb","path":"LifePack API Test Suites_26f55de9-31b1-426a-8f70-3c609a055035.json","metaData":{}}
-files[] = {"id":"24113271-7810ce8c-8795-4a33-90ea-0f7fc55720aa","path":"Lifepack API_50302f0b-3e83-4879-b099-b60ed8de4162.json","metaData":{}}
+files[] = {"id":"16901628-98e01285-7722-46a8-9b40-3a40c5d5ec20","path":"LifePack API Test Suites_26f55de9-31b1-426a-8f70-3c609a055035.json","metaData":{}}
+files[] = {"id":"16901628-ea3795f3-662e-4dc8-91ab-2c5a3ed38f76","path":"Lifepack API_50302f0b-3e83-4879-b099-b60ed8de4162.json","metaData":{}}
 
 [relations.collections.metaData]
 

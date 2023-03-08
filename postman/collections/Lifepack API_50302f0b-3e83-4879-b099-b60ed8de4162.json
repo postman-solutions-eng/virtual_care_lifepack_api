@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "7810ce8c-8795-4a33-90ea-0f7fc55720aa",
+		"_postman_id": "ea3795f3-662e-4dc8-91ab-2c5a3ed38f76",
 		"name": "Lifepack API",
 		"description": "# Changelogs\n\n## 2021-05-06\n\n*   Add new subscription status (`order_expired`) that will be triggered if user doesn't take any action with the unpaid order with incomplete address within 1 hour.\n*   Add new `expired_at` response parameter in [GET Subscription History](https://api-docs.lifepack.id/#0bb084e6-2e38-4c52-86c9-1a3f28e65553) endpoint.\n*   Add new `expired_at` response parameter in [GET Subscription Detail](https://api-docs.lifepack.id/#16595cf9-dfe3-4b83-a319-5e61d12464f9) endpoint.\n    \n\n## 2021-04-01\n\n*   Add new way to submit prescription data, using free text (`medications` parameter) in [POST Submit Prescription Data](https://api-docs.lifepack.id/#01382ce2-fb36-45cd-9077-a31495d47413) endpoint.\n    \n\n## 2021-02-22\n\n*   **\\[Breaking Changes\\]** Set parameter `city_id` to mandatory on request body parameter of [POST Submit Prescription Data](https://api-docs.lifepack.id/#01382ce2-fb36-45cd-9077-a31495d47413) endpoint.\n*   **\\[Breaking Changes\\]** Add required parameter `city_id` on request query parameter of [GET Product List](https://api-docs.lifepack.id/#ce261a0f-27ae-45dc-a6b2-a57f060a0343) endpoint.\n*   Updated the [GET City Coverage](https://api-docs.lifepack.id/#3dc6feaa-ac70-4738-ad87-2b6aa008229f) endpoint response values. We now support broader selection of cities to provide the best coverage and price offered possible to our partners.\n    \n\n## 2021-01-14\n\n*   **\\[Breaking Changes\\]** Add mandatory `dosage_per_unit` on product entity if you are using submit by digital prescription method on [POST Submit Prescription Data](https://api-docs.lifepack.id/#01382ce2-fb36-45cd-9077-a31495d47413) endpoint.\n*   Added optional `age_unit` in patient entity on [POST Submit Prescription Data](https://api-docs.lifepack.id/#01382ce2-fb36-45cd-9077-a31495d47413) endpoint. Default value is `years`.\n*   Added optional \\[`age`, `age_unit`, `weight`\\] in patient entity of request parameters on [POST Register Patient](https://api-docs.lifepack.id/#88f25b11-49ad-4272-a784-92893453b8ae) endpoint.\n    \n\n## 2020-12-21\n\n*   Change `diagnose` on patient entity max character length from 100 characters to 255 characters on [POST Submit Prescription Data](https://api-docs.lifepack.id/#01382ce2-fb36-45cd-9077-a31495d47413) endpoint.\n    \n\n## 2020-12-16\n\n*   **\\[Breaking Changes\\]** Partner that sent \"address\" entity empty on [POST Submit Prescription Data](https://api-docs.lifepack.id/#01382ce2-fb36-45cd-9077-a31495d47413) endpoint should notice that the `address` entity on [GET Subscription Detail](https://api-docs.lifepack.id/#16595cf9-dfe3-4b83-a319-5e61d12464f9) endpoint will have value of empty object (`{}`) until user has set the address in the link given by SMS/notification at `pending_address` status. This happens to avoid delivery price showing up before user has set the address.\n*   Adjust explanation on `payment` entity, add \\[`method`, `logo`, `account_number`\\] and change `expired_at` documentation on [GET Subscription Detail](https://api-docs.lifepack.id/#16595cf9-dfe3-4b83-a319-5e61d12464f9) endpoint.\n    \n\n# Overview\n\n## Lifepack Open API Description\n\nLifepackPartner is a project used to describe and document RESTful APIs.\n\n## Partner Account Types\n\nCurrently, there is two different partner account types available for partners to apply:\n\n1.  Standard Partner Account - Partner who's applying this kind of account should have their customer coordinate address data to send to us while sending [Submit Prescription Data](https://api-docs.lifepack.id/?version=latest#01382ce2-fb36-45cd-9077-a31495d47413) requests and also they should have their own payment system.\n2.  Payment on Us Partner Account - Partner who applying this kind of account are the ones that still don't have their own payment system. Sending patient address coordinates while sending [Submit Prescription Data](https://api-docs.lifepack.id/?version=latest#01382ce2-fb36-45cd-9077-a31495d47413) requests are also optional.\n    \n\n## Bussiness Flow\n\n### Subscription Creation Flow\n\n![](https://user-images.githubusercontent.com/60015240/144252882-0df8992f-f7f4-42cb-82cd-d5c8863ca93b.png)\n\n### Payment Flow\n\nCurrently, there are two payment flow available to use on our system. The default payment flow and payment flow with payment on us option. If your system or existing data doesn't have user's address coordinate picker and payment system, you can apply for payment on us option to be enabled by contacting our business team.\n\n#### Default Payment Flow\n\nThe default payment flow starts after the prescription has reviewed and approved by our pharmacists. You can directly hit our [Change Payment Status to Paid](https://api-docs.lifepack.id/?version=latest#60c7c2e6-5e27-47d9-9713-7b898a1f6f16) endpoint after your customer's payment is already paid and verified in your system.\n\n![](https://user-images.githubusercontent.com/60015240/144253247-7649761c-0932-46d5-ad86-73658efba14d.png)\n\n#### Payment on Us Flow\n\nThe payment on us flow also starts after the prescription has reviewed and approved by our pharmacists. But, the entire process on address picking will happen in our system. You can just listen to webhook callback from us for the subscription status updates.\n\n![](https://user-images.githubusercontent.com/60015240/144253509-c69ecf52-cf3c-468a-94a8-e5d8f368e78f.png)\n\n## UX Guideline\n\n### Registration Flow\n\n![](https://user-images.githubusercontent.com/60015240/144253607-fc5f9af7-d1ec-4681-9606-889a0d597ca2.jpeg)\n\n### Create Digital Prescription Flow\n\n![](https://user-images.githubusercontent.com/60015240/144253766-14552bdc-fafd-4bc3-be9e-b2535851ac35.jpeg)\n\n![](https://user-images.githubusercontent.com/60015240/144253834-ad99fe9f-c6b0-4e66-88c3-69e1bd3d0a8d.jpeg)\n\n![](https://user-images.githubusercontent.com/60015240/144253976-9c4f160e-b497-495a-8047-0ad6f8da4c85.jpeg)\n\n### Create Photo Prescription Flow\n\n![](https://user-images.githubusercontent.com/60015240/144254139-fdecd854-dda6-42a3-a0bb-b25401283b01.jpeg)\n\n![](https://user-images.githubusercontent.com/60015240/144254218-1938c32d-25d6-414b-ac8d-ea9037e69d4f.jpeg)\n\n# Features\n\n## Easy to Integrate API\n\n*   Our RESTful API’s enable our partners to integrate to our solution seamlessly;\n*   Lifepack API support: Prescription, Subscription, Payment, Patient, Product.\n    \n\n## Dashboard\n\n*   Lifepack provides a portal for our partners to see all prescription history as well as analytics of their shipment and consumption activities;\n    \n\n# Setting Up\n\nOnce a partner has registered, it will have an access to our sandbox environment. Lifepack partner dashboard will also be accessible.\n\n## Getting Notification\n\nLIfepack allows partners to receive realtime notifications about Lifepack related information, by configuring a endpoint url on the Lifepack Partner Dashboard.\n\nWe are sending notifications to Webhook URL. This endpoint will only be triggered if there are status changes to existing subscription. Please refer to [subscription status reference section](https://api-docs.lifepack.id/?version=latest#subscription-status) for which statuses are sent in the notification.\n\nOnce configured, Lifepack will send a HTTP POST payload to the url, containing detail about specific event which can be seen in the notification payload section.\n\n**Configuring the Endpoint URL**\n\n*   To setup an Endpoint URL on Lifepack, head over to the **SETTINGS** tab on the sidebar, and edit the values on **WEBHOOK URL**.\n*   Save the notification URL using the **Submit** button. The notification URL can be modified anytime from the settings page.\n    \n\n## Notification Payload\n\nExample Payload:\n\n``` json\n{\n  \"subscription_id\": 1791,\n  \"status\": \"payment_order\",\n  \"patient\": {\n    \"id\": \"652\",\n    \"name\": \"Jono Hipertensi\",\n    \"phone_number\": \"+628537333452\",\n    \"address\": {\n      \"id\": 4849,\n      \"default\": false,\n      \"latitude\": -6.406614,\n      \"longitude\": 106.822083,\n      \"first_line\": \"Telaga Golf\",\n      \"second_line\": \"Jl. Hr. Rasuna Sahid\",\n      \"postal_code\": \"16412\",\n      \"note\": \"Graha Irama\",\n      \"street_name\": \" \",\n      \"province\": \"West Java\",\n      \"city\": \"Depok City\",\n      \"district\": \"Sukmajaya\",\n      \"sub_district\": null\n    }\n  },\n  \"total_payment\": 356250,\n  \"products\": [\n    {\n      \"id\": 1179,\n      \"name\": \"VERAPAMIL HCL\",\n      \"qty\": 2,\n      \"consumption_day\": 5,\n      \"total_qty\": 10\n    },\n    {\n      \"id\": 1013,\n      \"name\": \"SHAROX 500 MG\",\n      \"qty\": 2,\n      \"consumption_day\": 5,\n      \"total_qty\": 10\n    }\n  ],\n  \"timestamp\": \"2020-08-27 17:49:56\"\n}\n\n```\n\n### Payload Description\n\n| Parameter | Description |\n| --- | --- |\n| subscription_id | Subscription ID of the notification |\n| patient | `object` Please refer to [patient entity](https://api-docs.lifepack.id/#patient-entity) |\n| status | Refer to [subscription status reference section](https://api-docs.lifepack.id/?version=latest#subscription-status) for possible values |\n| total_payment | Amount of the total payment for current subscription |\n| timestamp | `string` Last update time |\n|  | Date format `YYYY-MM-DD HH:mm:ss` |\n\n### Product Entity\n\n| id | Product ID |\n| --- | --- |\n| name | Product name |\n| qty | Quantity taken per day |\n| consumption_day | Total days user should taking medicine |\n| total_qty | Total quantity of product given to user |\n\n## Error Code and Message\n\n### Description Of Usual Server Responses (HTTP Codes)\n\n*   `200 OK` - the request was successful (some API calls may return 201 instead).\n*   `201 Created` - the request was successful and a resource was created.\n*   `202 Accepted` - the request was accepted and enqueue for processing later.\n*   `204 No Content` - the request was successful but there is no representation to return (i.e. the response is empty).\n*   `400 Bad Request` - the request could not be understood or was missing required parameters.\n*   `401 Unauthorized` - authentication failed.\n*   `403 Forbidden` - access denied.\n*   `402 Payment Required` - payment is required.\n*   `404 Not Found` - resource was not found.\n*   `410 Gone` - the resource has been expired.\n*   `422 Unprocessable Entity` - i.e. validation errors.\n*   `500 Internal Server Error` - Bad bad bad.\n*   `503 Service Unavailable` - service is temporary unavailable (e.g. scheduled Platform Maintenance). Try again later.\n    \n\n### Error Structure\n\nAside from the `4XX` and `5XX` error HTTP Headers, we have an unified error structure:\n\n```\n{\n  \"error_code\": \"INTERNAL_SERVER_ERROR\",\n  \"message\": \"Internal Server Error\"\n}\n\n```\n\nThis means that, if you get an `4XX` or `5XX` errors, you can utilize your system to log or display the error message to the user. Possible error codes will be explained in each endpoints.\n\n# Reference\n\n## Subscription Status\n\n| Status | Description | Status appears on subscription detail? | Will receive notification? |\n| --- | --- | --- | --- |\n| in_review | Prescription is under review (products and total payment still not exists) | ✅ | ❌ |\n| prescription_approved | Prescription approved by pharmacist | ✅ | ✅ |\n| prescription_adjusted | Prescription is adjusted, partner should update prescription detail information | ❌ | ✅ |\n| order_cancelled | Prescription cancelled by pharmacist | ✅ | ✅ |\n| order_expired | Order is not continued within the time specified at `expired_at` | ✅ | ✅ |\n| prescription_rejected | Prescription is rejected by admin | ✅ | ✅ |\n| pending_address | User need to update address | ✅ | ✅ |\n| payment_order | Prescription is approved by admin and ready to be charged | ✅ | ✅ |\n| waiting_for_payment | User already selected payment method (only for payment on us partner type) | ✅ | ✅ |\n| payment_successful | Order has successfully paid by user | ✅ | ✅ |\n| payment_expired | Payment has expired (only for payment on us partner type) | ✅ | ✅ |\n| payment_failed | Payment has failed (only for payment on us partner type) | ✅ | ✅ |\n| order_processed | Pharmacist is preparing the order | ✅ | ✅ |\n| waiting_for_pickup | Package is ready to ship, waiting the courier to pick up | ✅ | ✅ |\n| picked_up | Package is picked up by courier | ✅ | ✅ |\n| on_delivery | Package is on delivery to customer address | ✅ | ✅ |\n| delivered | Package has already delivered to customer address | ✅ | ✅ |\n| delivery_failed | Package delivery has failed | ✅ | ✅ |\n| active | User click confirm button in lifepack app/automatically after 24 h delivered | ✅ | ✅ |\n| inactive | Medication schedule ended | ✅ | ✅ |\n\n# Authorization\n\nFor the authorization headers for authenticating the requests, please refer to our [Authorization](https://api-docs.lifepack.id/?version=latest#authorization-header) section.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "24113271-7810ce8c-8795-4a33-90ea-0f7fc55720aa"
+		"_uid": "16901628-ea3795f3-662e-4dc8-91ab-2c5a3ed38f76"
 	},
 	"item": [
 		{
@@ -15,7 +15,7 @@
 					"item": [
 						{
 							"name": "Upload Prescription Photo",
-							"id": "a26bdd1b-1bf3-4e3b-8147-90f6bf653988",
+							"id": "d39f20f4-789e-471a-a4e3-c0c09b7abcb7",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -63,7 +63,7 @@
 							},
 							"response": [
 								{
-									"id": "49b30872-2471-447a-87a9-211eaae9550b",
+									"id": "4d34adbe-2a15-4952-a758-0077d6b9b7c4",
 									"name": "Success Response",
 									"originalRequest": {
 										"method": "POST",
@@ -144,7 +144,7 @@
 									"body": "{\n    \"prescription_photo_id\": 12\n}"
 								},
 								{
-									"id": "12300dd6-885c-4976-acf9-1158495d411b",
+									"id": "4e300b2f-40d4-414c-8cc8-5d7bff2d1c06",
 									"name": "Incorrect Image Format",
 									"originalRequest": {
 										"method": "POST",
@@ -225,7 +225,7 @@
 									"body": "{\n    \"error_code\": \"PRESCRIPTION_IMAGE_FORMAT_INCORRECT\",\n    \"message\": \"Prescription image format incorrect\"\n}"
 								},
 								{
-									"id": "ac3d5a99-28c1-4bd6-9f15-9cafd167e4a5",
+									"id": "cb3c3d43-d402-41d1-9d56-8ca557188515",
 									"name": "Internal Server Error",
 									"originalRequest": {
 										"method": "POST",
@@ -305,7 +305,7 @@
 									"body": "{\n    \"error_code\": \"INTERNAL_SERVER_ERROR\",\n    \"message\": \"Internal Server Error\"\n}"
 								},
 								{
-									"id": "6d82e5f7-2d72-4b76-8a71-3cb6f7d6a6b9",
+									"id": "d3bf9b5a-9324-4328-a12c-f48be091d9eb",
 									"name": "Upload Multiple Prescription Photo",
 									"originalRequest": {
 										"method": "POST",
@@ -414,7 +414,7 @@
 						},
 						{
 							"name": "Submit Prescription Data",
-							"id": "18d56a47-1439-4791-ad3b-05a26e82d323",
+							"id": "e0bd005e-2a24-4708-8760-839e49c9dbe5",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -451,7 +451,7 @@
 							},
 							"response": [
 								{
-									"id": "42c838de-408e-4a39-ab36-8c5d56ba6b5d",
+									"id": "fca5264f-cd89-4815-a6a1-040cce5395b0",
 									"name": "Submit With Prescription Photo ID (With Insurance)",
 									"originalRequest": {
 										"method": "POST",
@@ -546,7 +546,7 @@
 									"body": "{\n    \"subscription_id\": 139,\n    \"patient_id\": 12,\n    \"doctor_id\": 5\n}"
 								},
 								{
-									"id": "2eedc957-0daf-4378-8567-ee26de7e2d10",
+									"id": "e1458b46-9ff9-4f85-bc01-7cfb3196e9f5",
 									"name": "Invalid Coordinate",
 									"originalRequest": {
 										"method": "POST",
@@ -621,7 +621,7 @@
 									"body": "{\n    \"error_code\": \"INVALID_COORDINATE\",\n    \"error_message\": \"Invalide Coordinate\"\n}"
 								},
 								{
-									"id": "4ebe1655-061a-4fe1-afd1-909fb1da176f",
+									"id": "6dba550d-2a4f-4586-a215-877307a7cf85",
 									"name": "Submit Prescription Data With Products (No Insurance)",
 									"originalRequest": {
 										"method": "POST",
@@ -716,7 +716,7 @@
 									"body": "{\n    \"subscription_id\": 351,\n    \"patient_id\": 183,\n    \"doctor_id\": 244\n}"
 								},
 								{
-									"id": "fed72404-68d7-4b79-a6e9-b991a1bdd688",
+									"id": "305c3b74-97f9-4d31-a361-9fc7f2bfb2cf",
 									"name": "One of the Products not Found",
 									"originalRequest": {
 										"method": "POST",
@@ -791,7 +791,7 @@
 									"body": "{\n    \"error_code\": \"PRODUCT_NOT_FOUND\",\n    \"message\": \"Product not found\"\n}"
 								},
 								{
-									"id": "c0d8e157-b88c-4d02-88b0-2830a5aa7256",
+									"id": "7b2ddeea-e654-4509-894f-5c88036caeaf",
 									"name": "Submit Prescription Data With non-strict Product Details",
 									"originalRequest": {
 										"method": "POST",
@@ -888,13 +888,13 @@
 							]
 						}
 					],
-					"id": "42355855-effa-4307-8c4e-5a8344ee945a",
+					"id": "9f3d6320-d3ca-4eba-8220-f93cc73e5dd7",
 					"description": "In Prescription API there are two endpoints that is to upload the prescription photo and create new prescription.\n\n## Submitting Prescriptions\n\nThe detailed workflow of submitting a prescription is as follows:\n\n### Create Prescription Flow\n\n![Create Prescription Flow](https://drive.google.com/uc?export=view&id=1B9-rTzJFqvmM2UyoEKDOccZ_J_LliQhE)\n\nAfter you have submitted your prescription, you will get a subscription with `in_review` status that would be reviewed by our pharmacists. And then, there is a possibility that your prescription will be rejected and changed the status to `prescription_rejected`. There are two ways to submit prescription data to this endpoint:\n\n#### Option 1: Don't Have Prescription Photo and/or Want to Manually Input Medication Details With Existing Lifepack Product Information\n\nIf you prefer submitting prescription data with inputting the medication list, follow through this steps:\n\n1. Obtain the product IDs from product list using the endpoint `GET /partner/v1/product`\n2. Submit the prescription through using the endpoint `POST /partner/v1/prescription`. You should only pass the `products` parameter as an array. Then, the `prescription_photo_id` and `medications` parameter should be `null`.\n\n#### Option 2: Don't Have Prescription Photo and/or Want to Manually Input Medication Details (More Freely)\n\nIf you need to submit the prescription data with inputting the medication list more freely without getting list medicines from Lifepack, please follow through this steps:\n\n1. Submit the prescription through using the endpoint `POST /partner/v1/prescription`. You should only pass the `medications` parameter as an array. Then, the `prescription_photo_id` and `products` parameter should be `null`.\n\n#### Option 3: Have Prescription Photo and/or Don't Want to Manually Input Medication Details\n\nIf you prefer submitting prescription data without inputting the medication list, follow through this steps:\n\n1. Upload prescription photo through `POST /partner/v1/prescription-photo`.\n2. After you have obtained the `prescription_photo_id`, you are ready to submit the prescription. Submit the prescription through using the endpoint `POST /partner/v1/prescription`. You should only pass the `prescription_photo_id`. Then, the `products` and `medications` parameter should be `null`.",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "532f0d6a-14ae-4bcb-b580-d8f5d8a5a9cf",
+								"id": "d76277a4-ead4-4f59-bf6b-f3f3e61e3da5",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -904,7 +904,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "885ac4e1-f4dc-44a9-b28f-87fa3c9d65ad",
+								"id": "bf9e1af1-c3bb-47ec-ae19-d5fe034c54e0",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -922,7 +922,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "b2227f45-04e1-439d-9337-91325c032542",
+										"id": "c6aac46b-8183-48df-93f0-bd164d22de40",
 										"exec": [
 											"pm.test(\"Active status found\", function () {",
 											"    var jsonData = pm.response.json();",
@@ -933,7 +933,7 @@
 									}
 								}
 							],
-							"id": "91c83856-6c87-450d-a08e-e5663984b44c",
+							"id": "d30e9838-3c34-45b6-b67c-cdc6efb13de0",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -973,7 +973,7 @@
 							},
 							"response": [
 								{
-									"id": "d53013a8-421e-4398-90ad-6e3172b50cea",
+									"id": "a19f8e6f-971c-4b03-adcf-2c2ce19e67fe",
 									"name": "Success Get Subscription History",
 									"originalRequest": {
 										"method": "GET",
@@ -1054,7 +1054,7 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4104e8c2-6127-4b0b-877a-52df9ba3842c",
+										"id": "fd5044f0-2e55-4544-ad96-d918e06d506e",
 										"exec": [
 											"pm.test(\"Active status found\", function () {",
 											"    var jsonData = pm.response.json();",
@@ -1065,7 +1065,7 @@
 									}
 								}
 							],
-							"id": "20fd906b-2cc6-4d15-8e59-4b0dbb8f104d",
+							"id": "a0f0cc60-ad71-435d-93ca-ecc45015426a",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1100,7 +1100,7 @@
 							},
 							"response": [
 								{
-									"id": "19327beb-2b22-4371-b18f-f249c5c2f1ac",
+									"id": "dbc92a1c-40ab-414a-86e2-b8b2e5778352",
 									"name": "Success Get Subscription Detail",
 									"originalRequest": {
 										"method": "GET",
@@ -1171,13 +1171,13 @@
 							]
 						}
 					],
-					"id": "c3427470-5c5e-4ff2-b643-8a57bbaea1c6",
+					"id": "7e6b24fb-ebf8-4b17-9019-0085f970eb55",
 					"description": "See information about Subscription history and Subscription Detail",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d4abf6ce-cd9f-42d1-a138-c5769490573c",
+								"id": "e9bb3e22-7a38-4584-b3f3-b3d2bf91aca4",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1187,7 +1187,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0f982cb4-453c-4834-af5d-4334944c4f22",
+								"id": "e260d44b-2874-4d84-bebd-6c2d94ac3059",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1201,7 +1201,7 @@
 					"item": [
 						{
 							"name": "Change Payment Status to Paid",
-							"id": "cfc1e19f-4088-4510-bb92-fcabe33c4c81",
+							"id": "b5f7b086-dfce-4597-9140-5ab9df56af0e",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1232,7 +1232,7 @@
 							},
 							"response": [
 								{
-									"id": "086c0593-448a-4103-9a9d-fb81fa066816",
+									"id": "7406d129-ef35-42b0-9182-6fcd81051c88",
 									"name": "Change Payment Status to Paid",
 									"originalRequest": {
 										"method": "PUT",
@@ -1271,150 +1271,19 @@
 										}
 									],
 									"cookie": [],
+									"responseTime": null,
 									"body": "{\n\t\"status\": \"SUCCESS\"\n}"
-								},
-								{
-									"id": "417ffda9-6b63-4fb1-ae2c-d051115e5f90",
-									"name": "Failed Change Payment Status",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"subscription_id\": 12,\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\"\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/payment",
-											"host": [
-												"{{LIFEPACK_BASE_URL}}"
-											],
-											"path": [
-												"partner",
-												"v1",
-												"payment"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "X-Powered-By",
-											"value": "Express"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "117"
-										},
-										{
-											"key": "ETag",
-											"value": "W/\"75-HZH3y/v7rIcxgWLpsta3OvT91kY\""
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 14 May 2020 03:32:30 GMT"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"status\": \"FAILED\",\n    \"error\": {\n        \"error_code\": \"SUBSCRIPTION_NOT_READY_TO_PAID\",\n        \"message\": \"Subscription is still on review and not ready to be paid\"\n    }\n}"
-								},
-								{
-									"id": "b7aa5103-2f5a-4dc2-9a3c-1c87edd22f3d",
-									"name": "Subscription not Found",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{AUTH_TOKEN}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"subscription_id\": 12,\n    \"signature_key\": \"bf6c5a49d5a4d7a0debeb19d6fdc1008730565d36a6255530e3943fbd627eb489fc89129286df9e72ddc42d735c45d60d92938d6e103ac966ae4919a8d3c564c\"\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/payment",
-											"host": [
-												"{{LIFEPACK_BASE_URL}}"
-											],
-											"path": [
-												"partner",
-												"v1",
-												"payment"
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "X-Powered-By",
-											"value": "Express"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "77"
-										},
-										{
-											"key": "ETag",
-											"value": "W/\"4d-7m/y44GLTQ1U0X3UBGrgknqf2ns\""
-										},
-										{
-											"key": "Date",
-											"value": "Thu, 14 May 2020 03:33:10 GMT"
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"error_code\": \"SUBSCRIPTION_NOT_FOUND\",\n    \"message\": \"Subscription is not found\"\n}"
 								}
 							]
 						}
 					],
-					"id": "47bfc9f9-395e-4a9f-aafb-d0885f037dda",
+					"id": "510df1e6-e804-49bb-9545-6c58479d5f54",
 					"description": "You can use Payment API to change subscription payment status.",
 					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "850d0700-a195-4696-a4fa-ba6f40727d77",
+								"id": "80839079-9aa8-40aa-8c7a-e74865c0a45c",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1424,7 +1293,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4e91b865-a330-4104-89bd-0b81adc32da3",
+								"id": "37d9464a-e5d2-4451-8b0f-8ca5491c1779",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1438,7 +1307,7 @@
 					"item": [
 						{
 							"name": "Patient Information",
-							"id": "c443080a-3e8d-4bb9-8c40-de8a25344adf",
+							"id": "b9ce5f70-22c5-4a94-acce-8f5c3fd6fd62",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1483,7 +1352,7 @@
 							},
 							"response": [
 								{
-									"id": "2ed89e72-08f6-4f2c-bdf3-c19313549e31",
+									"id": "0a60e287-2fe1-4d55-9699-72beac9edf35",
 									"name": "Get List Specific Patient Information",
 									"originalRequest": {
 										"method": "GET",
@@ -1562,7 +1431,7 @@
 									"body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Jono Diabetes\",\n        \"phone_number\": \"+628712312312\",\n        \"gender\": \"male\",\n        \"allergy\": \"Alergi kacang\",\n        \"age\": 45\n    }\n]"
 								},
 								{
-									"id": "f75d880c-0727-41f2-b105-463db7b63026",
+									"id": "943604a7-fc8e-42e7-8918-4fd4226a7241",
 									"name": "Get List All Patient Information",
 									"originalRequest": {
 										"method": "GET",
@@ -1649,15 +1518,15 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "86294531-bf9e-492e-9cda-d934d36195d2",
+										"id": "76745dc0-9227-47d9-a8f0-f75db43eae6d",
 										"exec": [
-											"postman.setNextRequest(\"City Coverage\")"
+											""
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
-							"id": "c97c6b3c-afc9-4cf3-b80a-039d795769b7",
+							"id": "ea472f07-8830-45bf-b438-e43933997f7e",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -1694,7 +1563,7 @@
 							},
 							"response": [
 								{
-									"id": "02354822-7830-4433-a976-1a3a3a4e2dfa",
+									"id": "3efdfb97-692a-4b46-bd09-ab89a52cda39",
 									"name": "Success Register Patient",
 									"originalRequest": {
 										"method": "POST",
@@ -1777,83 +1646,11 @@
 										}
 									],
 									"cookie": [],
+									"responseTime": null,
 									"body": null
 								},
 								{
-									"id": "34e32fe7-a67b-4945-ac68-e8a40ef247b5",
-									"name": "Policy Number Already Exists",
-									"originalRequest": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"type": "text",
-												"value": "{{AUTH_TOKEN}}"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"Yudia\",\r\n    \"phone_number\": \"+628569240856\",\r\n    \"insurance\": {\r\n        \"company_name\": \"BNI Life\",\r\n        \"policy_number\": \"003105\"\r\n    },\r\n    \"patients\": [\r\n        {\r\n            \"name\": \"yudia\",\r\n            \"phone_number\": \"+628569240856\",\r\n            \"member_number\": \"031322\",\r\n            \"family_type\": \"self\"\r\n        },\r\n        {\r\n            \"name\": \"karno\",\r\n            \"phone_number\": \"+628547236273\",\r\n            \"member_number\": \"861534\",\r\n            \"family_type\": \"spouse\"\r\n        },\r\n        {\r\n            \"name\": \"Kenan\",\r\n            \"phone_number\": null,\r\n            \"member_number\": \"761235\",\r\n            \"family_type\": \"child\"\r\n        }\r\n    ]\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{LIFEPACK_BASE_URL}}/partner/v1/patient",
-											"host": [
-												"{{LIFEPACK_BASE_URL}}"
-											],
-											"path": [
-												"partner",
-												"v1",
-												"patient"
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Server",
-											"value": "nginx"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 01 Sep 2020 04:04:00 GMT"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "77"
-										},
-										{
-											"key": "Connection",
-											"value": "close"
-										},
-										{
-											"key": "X-Powered-By",
-											"value": "Express"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "ETag",
-											"value": "W/\"4d-J0yz6fh1UzIh4IL9Pa7/LtZ1FIs\""
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"errorCode\": \"POLICY_NUMBER_EXISTS\",\n    \"message\": \"Policy Number already exists\"\n}"
-								},
-								{
-									"id": "304aa8a1-d10f-477b-a225-493fc19587e2",
+									"id": "bb0c7155-f1d2-44f7-b314-3549d46d2f59",
 									"name": "Member Number Already Exists",
 									"originalRequest": {
 										"method": "POST",
@@ -1928,7 +1725,7 @@
 									"body": "{\n    \"errorCode\": \"MEMBER_NUMBER_EXISTS\",\n    \"message\": \"Member Number already exists\"\n}"
 								},
 								{
-									"id": "a45d0503-94cb-42a8-95ca-3813351e70ee",
+									"id": "0de8b63d-bbee-4639-8cab-79aa2896db05",
 									"name": "User Already Registered (Duplicate Phone Number)",
 									"originalRequest": {
 										"method": "POST",
@@ -2005,14 +1802,14 @@
 							]
 						}
 					],
-					"id": "fed6f8f8-e8fb-42ed-80fd-c8ed4b261c1e"
+					"id": "f703d847-cfbf-4871-8fd3-2510222b2e0d"
 				},
 				{
 					"name": "Product",
 					"item": [
 						{
 							"name": "Product List",
-							"id": "38fa1406-d7b4-4c75-832b-bc9bb2517762",
+							"id": "1a4baf9b-1f17-4953-b1a3-9ef2ac1bcc72",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -2062,7 +1859,7 @@
 							},
 							"response": [
 								{
-									"id": "15aed25d-71b2-4155-8e61-d63bc08e657c",
+									"id": "2d0804df-fe68-42ac-9067-c09ee0dda270",
 									"name": "Get Product List Without Any Specific Keyword",
 									"originalRequest": {
 										"method": "GET",
@@ -2149,7 +1946,7 @@
 									"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Arthozan Gc+Msm\",\n        \"description\": \"\",\n        \"type\": \"kapsul\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Coldycin Herbal Throat L\",\n        \"description\": \"\",\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Imunea\",\n        \"description\": \"\",\n        \"type\": \"softgel\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Focus\",\n        \"description\": \"\",\n        \"type\": \"Kapsul\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Livergard\",\n        \"description\": \"\",\n        \"type\": \"Kapsul\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Vision\",\n        \"description\": \"\",\n        \"type\": \"Softgel\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 7,\n        \"name\": \"Renovit Gold\",\n        \"description\": \"\",\n        \"type\": \"kaplet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 8,\n        \"name\": \"Renovit\",\n        \"description\": \"\",\n        \"type\": \"kaplet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 9,\n        \"name\": \"Ever E250\",\n        \"description\": \"\",\n        \"type\": \"softgel\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 10,\n        \"name\": \"Hemaviton Cardio\",\n        \"description\": \"\",\n        \"type\": \"kaplet\",\n        \"stock_availability\": true\n    }\n]"
 								},
 								{
-									"id": "953534e5-357c-4a02-b34e-32ada88850ae",
+									"id": "4e4d353c-bad3-417e-b120-cbbb0449baf5",
 									"name": "Get Product List With Specific Keyword",
 									"originalRequest": {
 										"method": "GET",
@@ -2236,7 +2033,7 @@
 									"body": "[\n    {\n        \"id\": 886,\n        \"name\": \"PARACETAMOL 500 MG PRMD\",\n        \"description\": null,\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 887,\n        \"name\": \"PARACETAMOL ESA\",\n        \"description\": null,\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 888,\n        \"name\": \"PARACETAMOL TAB\",\n        \"description\": null,\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    }\n]"
 								},
 								{
-									"id": "101cf5b5-359c-4f11-bb89-712ecaeb718c",
+									"id": "14751f4c-1749-4a97-a232-f5ae8e29381a",
 									"name": "No City ID Passed",
 									"originalRequest": {
 										"method": "GET",
@@ -2322,7 +2119,7 @@
 						},
 						{
 							"name": "Product Detail",
-							"id": "0561c873-f222-4fe4-9131-a3acf2ccb53b",
+							"id": "4455bb9a-7873-477f-82bc-e789ecfe61f8",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -2358,7 +2155,7 @@
 							},
 							"response": [
 								{
-									"id": "161d8072-85ad-46b8-9f0a-437f590a2c99",
+									"id": "6b70d72c-870a-4b80-8ba5-090de5cd7aad",
 									"name": "Failed Get Product Detail",
 									"originalRequest": {
 										"method": "GET",
@@ -2432,7 +2229,7 @@
 									"body": "{\n    \"error_code\": \"INTERNAL_SERVER_ERROR\",\n    \"message\": \"Internal Server Error\"\n}"
 								},
 								{
-									"id": "fe57e4c8-7fed-4089-8ae3-f598e1e26112",
+									"id": "70bc25c3-6555-4e69-b8b9-2198fbfec028",
 									"name": "Success Get Product Detail",
 									"originalRequest": {
 										"method": "GET",
@@ -2526,7 +2323,7 @@
 									"body": "{\n    \"id\": 1,\n    \"name\": \"Arthozan Gc+Msm\",\n    \"type\": \"kapsul\",\n    \"description\": \"\",\n    \"stock_availability\": true\n}"
 								},
 								{
-									"id": "e4e1eb37-c49b-41ab-9d56-6aca05052f64",
+									"id": "dff8c2eb-017e-40aa-8942-8d83906bf6bf",
 									"name": "Product Not Found",
 									"originalRequest": {
 										"method": "GET",
@@ -2602,14 +2399,14 @@
 							]
 						}
 					],
-					"id": "ce256b9f-a8d4-4f30-a0cd-a9cc07da2238"
+					"id": "acb8a30e-6a2a-4e6b-aeec-3f7e7c6fda4a"
 				},
 				{
 					"name": "Address",
 					"item": [
 						{
 							"name": "City Coverage",
-							"id": "22fc3108-816f-494b-94ab-84b8eb7154c9",
+							"id": "9a5dc183-0f9f-4b23-8db2-b35e94333c95",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -2638,7 +2435,7 @@
 							},
 							"response": [
 								{
-									"id": "ecc0cb7f-d517-4315-a969-47c763338308",
+									"id": "d7aa2dda-06d7-4de4-95e7-19af731e1e78",
 									"name": "Success Get City Coverage",
 									"originalRequest": {
 										"method": "GET",
@@ -2727,16 +2524,16 @@
 							]
 						}
 					],
-					"id": "bf04eee6-8d07-4da5-9175-06f069967369"
+					"id": "be7a2b5d-5783-491c-a0ba-beb9ee5fc56b"
 				}
 			],
-			"id": "734e3ffe-4ca8-4678-a994-7a5eccffcbf6",
+			"id": "7b367726-f92f-450f-8276-55fef727cfef",
 			"description": "This Lifepack API contains features that can be used in your doctor consultation system.\n\n## HTTP(S) Request\n\nLifepack API can be requested through HTTP(S) Request to Lifepack Base URL endpoint. The HTTP(S) Header has to be used to allow proper authentication.\n\n### API Base URL\n\n- Sandbox Environment: `https://api-sandbox.lifepack.id/partner`\n- Production Environment: `https://api.lifepack.id/partner`\n\n## HTTP(S) Header\n\n| Header        | Value             | Definition                                                                              |\n|---------------|-------------------|-----------------------------------------------------------------------------------------|\n| Content-Type  | application/json  | The Content-Type field indicates that JSON type is acceptable to send to the recipient  |\n| Accept        | application/json  | The Accept field is used to specify that JSON type is acceptable for the response       |\n| Authorization | Basic AUTH_STRING | The Authorization field credentials can be found in Lifepack Partner Dashboard sidemenu |\n\n### Content-Type and Accept Header\n\nIn Lifepack API, the input and output parameters of the methods will be in JSON format. To accept JSON input and output parameters, you need to add the following HTTP(S) header:\n\n- Content-Type: application/json\n- Accept: application/json\n\n### Authorization Header\n\nThe authorization header utilizes API Key following HTTP(S) BASIC AUTH convention:\n\n- For Development environment, obtain `Client Key` and `Server Key` in Lifepack Partner Sandbox Dashboard in setting menu\n- For Production environment, obtain `Client Key` and `Server Key` in Lifepack Partner Dashboard in setting menu\n\nLifepack validates HTTP request by using Basic Authentication method. You must always add this header to your request headers every API call or otherwise you will get unauthorized error:\n\n```\nAUTH_STRING = Base64(CLIENT_KEY:SERVER_KEY)\n\nAuthorization: \"Basic AUTH_STRING\"\n```\n\nYou can use [Online Base64 Encode Tool](https://www.base64encode.org/) For encoding your authentication string.\n\n",
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "fc405731-13b1-4292-9e77-ac9281737378",
+						"id": "2b6533d3-18fc-45e4-bcf9-291b89d2baed",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2746,7 +2543,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "cf891859-5a44-4275-8deb-269428d1bd95",
+						"id": "6fcc31a7-f91a-4a19-a0da-50c60b9ac9e9",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -2760,7 +2557,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "75d27745-1df8-48e4-9c41-27970e566a99",
+				"id": "a5b76473-364c-48ed-beb2-a7e3f18f1a5d",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2770,7 +2567,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "5e11496b-3462-4f17-8c1f-c2763f4d7bb3",
+				"id": "14e6ae64-b2be-48b2-a3b9-d676b07feaf2",
 				"type": "text/javascript",
 				"exec": [
 					"pm.test(\"Status code is 200\", function () {",
