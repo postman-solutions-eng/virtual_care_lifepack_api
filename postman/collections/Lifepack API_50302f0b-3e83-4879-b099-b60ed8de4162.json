@@ -35,16 +35,12 @@
 											"description": "`file` Prescription image with `jpg` or `jpeg` format (Maximum size: 5MB)",
 											"key": "prescription",
 											"type": "file",
-											"src": [
-												"/Users/itmi/Downloads/9f149-senapanyangsudahjadi.jpg"
-											]
+											"src": "/Users/itmi/Downloads/9f149-senapanyangsudahjadi.jpg"
 										},
 										{
 											"key": "prescription",
 											"type": "file",
-											"src": [
-												"/Users/itmi/Downloads/696387.jpeg"
-											]
+											"src": "/Users/itmi/Downloads/696387.jpeg"
 										}
 									]
 								},
@@ -108,7 +104,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -140,7 +135,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"prescription_photo_id\": 12\n}"
 								},
 								{
@@ -189,7 +183,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -221,7 +214,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"PRESCRIPTION_IMAGE_FORMAT_INCORRECT\",\n    \"message\": \"Prescription image format incorrect\"\n}"
 								},
 								{
@@ -269,7 +261,6 @@
 									"status": "Internal Server Error",
 									"code": 500,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -301,7 +292,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"INTERNAL_SERVER_ERROR\",\n    \"message\": \"Internal Server Error\"\n}"
 								},
 								{
@@ -351,7 +341,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -407,7 +396,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"prescription_photo_id\": 1641\n}"
 								}
 							]
@@ -486,7 +474,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -542,7 +529,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"subscription_id\": 139,\n    \"patient_id\": 12,\n    \"doctor_id\": 5\n}"
 								},
 								{
@@ -581,7 +567,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -617,7 +602,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"INVALID_COORDINATE\",\n    \"error_message\": \"Invalide Coordinate\"\n}"
 								},
 								{
@@ -656,7 +640,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -712,7 +695,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"subscription_id\": 351,\n    \"patient_id\": 183,\n    \"doctor_id\": 244\n}"
 								},
 								{
@@ -751,7 +733,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "x-powered-by",
@@ -787,7 +768,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"PRODUCT_NOT_FOUND\",\n    \"message\": \"Product not found\"\n}"
 								},
 								{
@@ -826,7 +806,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -882,7 +861,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"subscription_id\": 351,\n    \"patient_id\": 183,\n    \"doctor_id\": 244\n}"
 								}
 							]
@@ -1011,7 +989,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -1043,7 +1020,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "[\n    {\n        \"id\": 411,\n        \"status\": \"active\",\n        \"full_name\": \"Jono Diabetes\",\n        \"total_price\": 144802,\n        \"currency\": \"IDR\",\n        \"updated_at\": \"2020-06-04 11:28:46\",\n        \"expired_at\": null,\n        \"start_date\": \"2020-06-04 07:00:00\",\n        \"end_date\": \"2020-06-08 23:59:59\",\n        \"estimated_delivery\": \"2020-06-08 09:21:39\",\n        \"is_notified\": true\n    },\n    {\n        \"id\": 412,\n        \"status\": \"active\",\n        \"full_name\": \"Jono Diabetes\",\n        \"total_price\": 16502,\n        \"currency\": \"IDR\",\n        \"updated_at\": \"2020-06-04 15:33:44\",\n        \"expired_at\": null,\n        \"start_date\": \"2020-06-09 07:00:00\",\n        \"end_date\": \"2020-06-13 23:59:59\",\n        \"estimated_delivery\": \"2020-06-08 09:21:39\",\n        \"is_notified\": false\n    },\n    {\n        \"id\": 414,\n        \"status\": \"active\",\n        \"full_name\": \"Jono Diabetes\",\n        \"total_price\": 16502,\n        \"currency\": \"IDR\",\n        \"updated_at\": \"2020-06-04 15:50:52\",\n        \"expired_at\": null,\n        \"start_date\": \"2020-06-14 07:00:00\",\n        \"end_date\": \"2020-06-18 23:59:59\",\n        \"estimated_delivery\": \"2020-06-08 09:21:39\",\n        \"is_notified\": false\n    },\n    {\n        \"id\": 413,\n        \"status\": \"order_expired\",\n        \"full_name\": \"Jono Diabetes Mark IV\",\n        \"total_price\": 113509,\n        \"currency\": \"IDR\",\n        \"updated_at\": \"2020-06-04 16:20:00\",\n        \"expired_at\": \"2020-06-04 17:20:00\",\n        \"start_date\": \"2020-06-04 07:00:00\",\n        \"end_date\": \"2020-06-08 23:59:59\",\n        \"estimated_delivery\": \"2020-06-08 09:21:39\",\n        \"is_notified\": false\n    },\n    {\n        \"id\": 416,\n        \"status\": \"prescription_approved\",\n        \"full_name\": \"Jono Diabetes Mark IV\",\n        \"total_price\": 93509,\n        \"currency\": \"IDR\",\n        \"updated_at\": \"2020-06-04 16:57:20\",\n        \"expired_at\": null,\n        \"start_date\": \"2020-06-09 07:00:00\",\n        \"end_date\": null,\n        \"estimated_delivery\": \"2020-06-08 09:21:39\",\n        \"is_notified\": false\n    },\n    {\n        \"id\": 418,\n        \"status\": \"payment_order\",\n        \"full_name\": \"Jono Diabetes Mark X\",\n        \"total_price\": 54666,\n        \"currency\": \"IDR\",\n        \"updated_at\": \"2020-06-05 12:01:01\",\n        \"expired_at\": \"2020-07-05 12:01:01\",\n        \"start_date\": \"2020-06-05 07:00:00\",\n        \"end_date\": null,\n        \"estimated_delivery\": \"2020-06-08 09:21:39\",\n        \"is_notified\": false\n    }\n]"
 								}
 							]
@@ -1133,7 +1109,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -1165,7 +1140,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"id\": 411,\n    \"prescription_id\": 443,\n    \"products\": [\n        {\n            \"id\": 512,\n            \"name\": \"GLIBENCLAMID 5 MG\",\n            \"price\": 3002,\n            \"currency\": \"IDR\",\n            \"qty\": 10,\n            \"type\": \"Tablet\"\n        },\n        {\n            \"id\": 1024,\n            \"name\": \"SALOFALK 500 MG\",\n            \"price\": 108300,\n            \"currency\": \"IDR\",\n            \"qty\": 5,\n            \"type\": \"Tablet\"\n        }\n    ],\n    \"payment\": {\n        \"id\": 148,\n        \"subtotal_price\": 3002,\n        \"discount\": 0,\n        \"total_price\": 144802,\n        \"delivery_price\": 33500\n    },\n    \"reject_reason\": null,\n    \"prescription_image\": [\n        \"https://b2b.lifepack.id/images/prescription/prescription-1591238976100085.jpg\",\n        \"https://b2b.lifepack.id/images/prescription/prescription-1591238976106402.jpeg\"\n    ],\n    \"claim_id\": \"0030\",\n    \"invoice_url\": \"https://api.lifepack.id/images/invoice/202008/20200814-invoice-770.jpg\",\n    \"status\": \"active\",\n    \"next_recurring_id\": 412,\n    \"is_notified\": true,\n    \"patient\": {\n        \"id\": \"183\",\n        \"full_name\": \"Jono Diabetes\",\n        \"phone_number\": \"+628712312312\"\n    },\n    \"estimated_delivery\": \"2020-06-08 08:49:18\",\n    \"start_date\": \"2020-06-04 07:00:00\",\n    \"end_date\": \"2020-06-08 23:59:59\",\n    \"updated_at\": \"2020-06-04 11:28:46\",\n    \"expired_at\": \"2020-06-04 15:28:46\",\n    \"currency\": \"IDR\",\n    \"address\": {\n        \"id\": 180,\n        \"default\": false,\n        \"latitude\": -6.170166,\n        \"longitude\": 106.831375,\n        \"first_line\": \"Menara Palma\",\n        \"second_line\": \"Jl. Hr. Rasuna Said Blok X2 No. 6\",\n        \"postal_code\": \"10710\",\n        \"note\": \"Graha Irama\",\n        \"street_name\": \" \",\n        \"province\": \"Jakarta\",\n        \"city\": \"Central Jakarta City\",\n        \"district\": \"Sawah Besar\",\n        \"sub_district\": null\n    }\n}"
 								}
 							]
@@ -1261,7 +1235,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Content-Type",
@@ -1271,7 +1244,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n\t\"status\": \"SUCCESS\"\n}"
 								}
 							]
@@ -1395,7 +1367,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -1427,7 +1398,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Jono Diabetes\",\n        \"phone_number\": \"+628712312312\",\n        \"gender\": \"male\",\n        \"allergy\": \"Alergi kacang\",\n        \"age\": 45\n    }\n]"
 								},
 								{
@@ -1475,7 +1445,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "X-Powered-By",
@@ -1507,7 +1476,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "[\n    {\n        \"id\": 3,\n        \"name\": \"Jono Diabetes\",\n        \"phone_number\": \"+628712312312\",\n        \"gender\": \"male\",\n        \"allergy\": \"Alergi kacang\",\n        \"age\": 45\n    }\n]"
 								}
 							]
@@ -1598,7 +1566,6 @@
 									"status": "Success",
 									"code": 200,
 									"_postman_previewlanguage": "plain",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -1646,7 +1613,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": null
 								},
 								{
@@ -1685,7 +1651,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -1721,7 +1686,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"errorCode\": \"MEMBER_NUMBER_EXISTS\",\n    \"message\": \"Member Number already exists\"\n}"
 								},
 								{
@@ -1760,7 +1724,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -1796,7 +1759,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"errorCode\": \"USER_ALREADY_REGISTERED\",\n    \"message\": \"User already registered\"\n}"
 								}
 							]
@@ -1906,7 +1868,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "x-powered-by",
@@ -1942,7 +1903,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Arthozan Gc+Msm\",\n        \"description\": \"\",\n        \"type\": \"kapsul\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Coldycin Herbal Throat L\",\n        \"description\": \"\",\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 3,\n        \"name\": \"Imunea\",\n        \"description\": \"\",\n        \"type\": \"softgel\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Focus\",\n        \"description\": \"\",\n        \"type\": \"Kapsul\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Livergard\",\n        \"description\": \"\",\n        \"type\": \"Kapsul\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Vision\",\n        \"description\": \"\",\n        \"type\": \"Softgel\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 7,\n        \"name\": \"Renovit Gold\",\n        \"description\": \"\",\n        \"type\": \"kaplet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 8,\n        \"name\": \"Renovit\",\n        \"description\": \"\",\n        \"type\": \"kaplet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 9,\n        \"name\": \"Ever E250\",\n        \"description\": \"\",\n        \"type\": \"softgel\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 10,\n        \"name\": \"Hemaviton Cardio\",\n        \"description\": \"\",\n        \"type\": \"kaplet\",\n        \"stock_availability\": true\n    }\n]"
 								},
 								{
@@ -1993,7 +1953,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "x-powered-by",
@@ -2029,7 +1988,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "[\n    {\n        \"id\": 886,\n        \"name\": \"PARACETAMOL 500 MG PRMD\",\n        \"description\": null,\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 887,\n        \"name\": \"PARACETAMOL ESA\",\n        \"description\": null,\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    },\n    {\n        \"id\": 888,\n        \"name\": \"PARACETAMOL TAB\",\n        \"description\": null,\n        \"type\": \"tablet\",\n        \"stock_availability\": true\n    }\n]"
 								},
 								{
@@ -2076,7 +2034,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -2112,7 +2069,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"CITY_ID_REQUIRED\",\n    \"message\": \"City ID required\"\n}"
 								}
 							]
@@ -2189,7 +2145,6 @@
 									"status": "Internal Server Error",
 									"code": 500,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -2225,7 +2180,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"INTERNAL_SERVER_ERROR\",\n    \"message\": \"Internal Server Error\"\n}"
 								},
 								{
@@ -2263,7 +2217,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -2319,7 +2272,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"id\": 1,\n    \"name\": \"Arthozan Gc+Msm\",\n    \"type\": \"kapsul\",\n    \"description\": \"\",\n    \"stock_availability\": true\n}"
 								},
 								{
@@ -2357,7 +2309,6 @@
 									"status": "Bad Request",
 									"code": 400,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "x-powered-by",
@@ -2393,7 +2344,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "{\n    \"error_code\": \"PRODUCT_NOT_FOUND\",\n    \"message\": \"Product not found\"\n}"
 								}
 							]
@@ -2462,7 +2412,6 @@
 									"status": "OK",
 									"code": 200,
 									"_postman_previewlanguage": "json",
-									"_postman_previewtype": "html",
 									"header": [
 										{
 											"key": "Server",
@@ -2518,7 +2467,6 @@
 										}
 									],
 									"cookie": [],
-									"responseTime": null,
 									"body": "[\n    {\n        \"id\": \"1\",\n        \"name\": \"DKI Jakarta\"\n    },\n    {\n        \"id\": \"2\",\n        \"name\": \"Tangerang & Banten\"\n    },\n    {\n        \"id\": \"3\",\n        \"name\": \"Jawa Barat\"\n    },\n    {\n        \"id\": \"4\",\n        \"name\": \"Jawa Tengah - Jawa Timur - Bali\"\n    },\n    {\n        \"id\": \"5\",\n        \"name\": \"Sumatera\"\n    },\n    {\n        \"id\": \"6\",\n        \"name\": \"Kalimantan\"\n    },\n    {\n        \"id\": \"7\",\n        \"name\": \"Indonesia Timur Lainnya\"\n    }\n]"
 								}
 							]
@@ -2557,7 +2505,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "a5b76473-364c-48ed-beb2-a7e3f18f1a5d",
+				"id": "b9b35811-17d3-4f15-92b4-37fe409dc9b9",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2567,12 +2515,12 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "14e6ae64-b2be-48b2-a3b9-d676b07feaf2",
+				"id": "46492e13-e7b3-415c-9f0e-e4f16b7a325c",
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"Status code is 200\", function () {",
-					"    pm.response.to.have.status(200);",
-					"});"
+					"// pm.test(\"Status code is 200\", function () {",
+					"//     pm.response.to.have.status(200);",
+					"// });"
 				]
 			}
 		}
